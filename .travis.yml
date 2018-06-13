@@ -8,6 +8,9 @@ install:
   - python setup.py install
 
 script:
+  # build dist
+  - python setup.py sdist
+  # now do the docs
   - cd docs
   # Use Sphinx to make the html docs
   - make html

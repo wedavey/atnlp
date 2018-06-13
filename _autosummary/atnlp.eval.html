@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.eval &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atnlp.model" href="atnlp.model.html" />
+    <link rel="prev" title="atnlp.data" href="atnlp.data.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configs.html">Configs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../source.html">Source Code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="atnlp.core.html">atnlp.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.data.html">atnlp.data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">atnlp.eval</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#html-py">html.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metrics-py">metrics.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plot-py">plot.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#table-py">table.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.model.html">atnlp.model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../source.html">Source Code</a> &raquo;</li>
+        
+      <li>atnlp.eval</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/atnlp.eval.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-atnlp.eval">
+<span id="atnlp-eval"></span><h1>atnlp.eval<a class="headerlink" href="#module-atnlp.eval" title="Permalink to this headline">¶</a></h1>
+<p>Model evaluation</p>
+<span class="target" id="module-atnlp.eval.html"></span><div class="section" id="html-py">
+<h2>html.py<a class="headerlink" href="#html-py" title="Permalink to this headline">¶</a></h2>
+<p>Classes for rendering documents as html.</p>
+<dl class="class">
+<dt id="atnlp.eval.html.Report">
+<em class="property">class </em><code class="descclassname">atnlp.eval.html.</code><code class="descname">Report</code><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple html report class based on bootstrap</p>
+<p>Use the interface to add elements (title, figures, tables, text, etc),
+then use <em>write</em> to dump rendered html to file.</p>
+<dl class="method">
+<dt id="atnlp.eval.html.Report.add_figure">
+<code class="descname">add_figure</code><span class="sig-paren">(</span><em>cap=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.add_figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.add_figure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add figure to document</p>
+<p>Call this directly after creating a figure with matplotlib.
+The figure will be embedded into the html document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cap</strong> – figure caption (optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.eval.html.Report.add_section">
+<code class="descname">add_section</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.add_section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.add_section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add section to document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> – section title</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.eval.html.Report.add_styled_table">
+<code class="descname">add_styled_table</code><span class="sig-paren">(</span><em>tab</em>, <em>cap=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.add_styled_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.add_styled_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add styled table to document</p>
+<p>Note: full control over html style is given to the Styler and bootstrap css
+is not used, so it can be difficult to get something that actually
+looks good.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tab</strong> – table (pandas Styler)</li>
+<li><strong>cap</strong> – caption (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.eval.html.Report.add_table">
+<code class="descname">add_table</code><span class="sig-paren">(</span><em>tab</em>, <em>cap=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.add_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.add_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add table to document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tab</strong> – table (pandas DataFrame)</li>
+<li><strong>cap</strong> – caption (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.eval.html.Report.add_text">
+<code class="descname">add_text</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.add_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.add_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add paragraph text to document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – text string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.eval.html.Report.add_title">
+<code class="descname">add_title</code><span class="sig-paren">(</span><em>title</em>, <em>par=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.add_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.add_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add title to document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>title</strong> – title string</li>
+<li><strong>par</strong> – paragraph to go with title (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.eval.html.Report.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/html.html#Report.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.html.Report.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write rendered html to file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> – path to output file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.eval.metrics"></span><div class="section" id="metrics-py">
+<h2>metrics.py<a class="headerlink" href="#metrics-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for computing performance metrics. Typically custom metrics not provided by sklearn.</p>
+<dl class="function">
+<dt id="atnlp.eval.metrics.flpd_score">
+<code class="descclassname">atnlp.eval.metrics.</code><code class="descname">flpd_score</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/metrics.html#flpd_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.metrics.flpd_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return ‘false labels per document’ score</p>
+<p>‘False labels per document’ is defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">score</span> <span class="p">:</span><span class="o">=</span> <span class="n">total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">false</span> <span class="n">labels</span> <span class="o">/</span> <span class="n">number</span> <span class="n">of</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">false labels per document score</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.metrics.mlpd_score">
+<code class="descclassname">atnlp.eval.metrics.</code><code class="descname">mlpd_score</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/metrics.html#mlpd_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.metrics.mlpd_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Missing labels per document score</p>
+<p>‘Missing labels per document’ is defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">score</span> <span class="p">:</span><span class="o">=</span> <span class="n">total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">missing</span> <span class="n">labels</span> <span class="o">/</span> <span class="n">number</span> <span class="n">of</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">missing labels per document score</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.metrics.recall_all_score">
+<code class="descclassname">atnlp.eval.metrics.</code><code class="descname">recall_all_score</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/metrics.html#recall_all_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.metrics.recall_all_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ‘recall all’ score</p>
+<p>‘Recall all’ is defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">score</span> <span class="p">:</span><span class="o">=</span> <span class="n">number</span> <span class="n">of</span> <span class="n">examples</span> <span class="k">with</span> <span class="nb">all</span> <span class="n">labels</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">number</span> <span class="n">of</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">recall all score</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.eval.plot"></span><div class="section" id="plot-py">
+<h2>plot.py<a class="headerlink" href="#plot-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for creating performance summary plots.</p>
+<dl class="function">
+<dt id="atnlp.eval.plot.background_composition_pie">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">background_composition_pie</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_score</em>, <em>topic</em>, <em>threshold</em>, <em>min_topic_frac=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#background_composition_pie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.background_composition_pie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a pie chart illustrating the major background contributions for given label</p>
+<p>Background topics contributing less than <em>min_topic_frac</em> will be merged into a
+single contribution called “Other”.</p>
+<p>A bar chart is also included illustrating the overall topic composition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_score</strong> – topic probability predictions (shape: samples x topics)</li>
+<li><strong>topic</strong> – name of topic to investigate</li>
+<li><strong>threshold</strong> – threshold above which to investigate background contributions</li>
+<li><strong>min_topic_frac</strong> – minimum background sample fraction</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, list of axes)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.binary_classification_accuracy_overlays">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">binary_classification_accuracy_overlays</code><span class="sig-paren">(</span><em>classifiers</em>, <em>X_train</em>, <em>y_train</em>, <em>X_test</em>, <em>y_test</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#binary_classification_accuracy_overlays"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.binary_classification_accuracy_overlays" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create overlays of binary classification accuracy for multiple classifiers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>classifiers</strong> – list of tuples (name, classifier)</li>
+<li><strong>X_train</strong> – training data</li>
+<li><strong>y_train</strong> – binary training labels</li>
+<li><strong>X_test</strong> – testing data</li>
+<li><strong>y_test</strong> – binary testing labels</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, axis)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.create_awesome_plot_grid">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">create_awesome_plot_grid</code><span class="sig-paren">(</span><em>nminor</em>, <em>ncol=5</em>, <em>maj_h=2</em>, <em>maj_w=3</em>, <em>min_xlabel=None</em>, <em>min_ylabel=None</em>, <em>maj_xlabel=None</em>, <em>maj_ylabel=None</em>, <em>grid=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#create_awesome_plot_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.create_awesome_plot_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an awesome plot grid</p>
+<blockquote>
+<div><p>The grid includes a specified number (<em>nminor</em>) of minor
+plots (unit size in the grid) and a single major plot
+whose size can be specified in grid units (<em>maj_h</em> and <em>maj_w</em>).</p>
+<p>The major plot is located top-right. If either dimension
+is 0 the major plot is omitted.</p>
+<p>The minor plots are tiled from left-to-right, top-to-bottom
+on a grid of width <em>ncol</em> and will be spaced around the major
+plot.</p>
+</div></blockquote>
+<p>The grid will look something like this</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#----#----#----#---------#
+|    |    |    |         |
+|    |    |    |         |
+#----#----#----#         |
+|    |    |    |         |
+|    |    |    |         |
+#----#----#----#----#----#
+|    |    |    |    |    |
+|    |    |    |    |    |
+#----#----#----#----#----#
+|    |    |
+|    |    | --&gt;
+#----#----#
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nminor</strong> – number of minor plots</li>
+<li><strong>ncol</strong> – width of grid (in grid units)</li>
+<li><strong>maj_h</strong> – height of major plot (in grid units)</li>
+<li><strong>maj_w</strong> – width of major plot (in grid units)</li>
+<li><strong>min_xlabel</strong> – x-axis label of minor plots</li>
+<li><strong>min_ylabel</strong> – y-axis label of minor plots</li>
+<li><strong>maj_xlabel</strong> – x-axis label of major plot</li>
+<li><strong>maj_ylabel</strong> – y-axis label of major plot</li>
+<li><strong>grid</strong> – draw grid lines (if True)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, major axis, minor axes (flat list), minor axes (2D list))</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.false_labels_matrix">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">false_labels_matrix</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#false_labels_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.false_labels_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MxM false labels matrix for M topics</p>
+<p>Each column represents a given ground truth topic label.
+Each row represents the absolute number of false predicted
+labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, axis)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.get_multimodel_sample_size_dependence">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">get_multimodel_sample_size_dependence</code><span class="sig-paren">(</span><em>models</em>, <em>datasets</em>, <em>labels</em>, <em>sample_fracs</em>, <em>scoring=None</em>, <em>cat_scoring=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#get_multimodel_sample_size_dependence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.get_multimodel_sample_size_dependence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return performance metrics vs training sample size</p>
+<p>Fractions of data (<em>sample_fracs</em>) are randomly sampled from the training dataset
+and used to train the models, which are always evaluated on the full testing datasets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>models</strong> – list of topic labelling models</li>
+<li><strong>datasets</strong> – list of input data for models (each is (training, testing) tuple)</li>
+<li><strong>labels</strong> – tuple (train, test) of ground truth topic labels (one-hot format)</li>
+<li><strong>sample_fracs</strong> – list of sample fractions to scan</li>
+<li><strong>scoring</strong> – sklearn scorer or scoring name for topic averaged metric</li>
+<li><strong>cat_scoring</strong> – sklearn scorer or scoring name for individual topic metric</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (entries per step, averaged model scores for each step, model scores for each topic for each step)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.keras_train_history_graph">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">keras_train_history_graph</code><span class="sig-paren">(</span><em>history</em>, <em>metrics</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#keras_train_history_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.keras_train_history_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot selected performance <em>metrics</em> as a function of training epoch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>history</strong> – keras training history</li>
+<li><strong>metrics</strong> – list of metric names to plot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, list of axes)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.multimodel_sample_size_dependence_graph">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">multimodel_sample_size_dependence_graph</code><span class="sig-paren">(</span><em>models</em>, <em>model_names</em>, <em>datasets</em>, <em>labels</em>, <em>sample_fracs</em>, <em>scoring=None</em>, <em>cat_scoring=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#multimodel_sample_size_dependence_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.multimodel_sample_size_dependence_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create graph of performance metric vs training sample size</p>
+<p>Fractions of data (<em>sample_fracs</em>) are randomly sampled from the training dataset
+and used to train the models, which are always evaluated on the full testing datasets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>models</strong> – list of topic labelling models</li>
+<li><strong>model_names</strong> – list of model names</li>
+<li><strong>datasets</strong> – list of input data for models (each is (training, testing) tuple)</li>
+<li><strong>labels</strong> – tuple (train, test) of ground truth topic labels (one-hot format)</li>
+<li><strong>sample_fracs</strong> – list of sample fractions to scan</li>
+<li><strong>scoring</strong> – sklearn scorer or scoring name for topic averaged metric</li>
+<li><strong>cat_scoring</strong> – sklearn scorer or scoring name for individual topic metric</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, major axis, minor axes (flat list), minor axes (2D list))</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.topic_correlation_matrix">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">topic_correlation_matrix</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#topic_correlation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.topic_correlation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MxM correlation matrix for M topics</p>
+<p>Each column represents a given ground truth topic label.
+Each row represents the relative frequency with which other
+ground truth labels co-occur.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Y</strong> – ground truth topic labels (one-hot format)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple (figure, axis)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.topic_labelling_barchart">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">topic_labelling_barchart</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_preds</em>, <em>model_names</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#topic_labelling_barchart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.topic_labelling_barchart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create topic labelling barchart</p>
+<p>The figure includes a 1x4 grid of bar charts, illustrating
+the number of samples, precision, recall and f1 scores for
+each topic. The scores are overlayed for each model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_preds</strong> – topic predictions for each model (list of one-hot formats)</li>
+<li><strong>model_names</strong> – topic labelling model names</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, list of axes)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.topic_labelling_barchart_cv">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">topic_labelling_barchart_cv</code><span class="sig-paren">(</span><em>models</em>, <em>model_names</em>, <em>model_inputs</em>, <em>Y</em>, <em>cv=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#topic_labelling_barchart_cv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.topic_labelling_barchart_cv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create topic labelling barchart with k-fold cross-validation</p>
+<p>Figure layout is the same as in <a class="reference internal" href="#atnlp.eval.plot.topic_labelling_barchart" title="atnlp.eval.plot.topic_labelling_barchart"><code class="xref py py-func docutils literal notranslate"><span class="pre">topic_labelling_barchart()</span></code></a>.</p>
+<p>K-fold cross-validation is used to estimate uncertainties on the metrics.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>models</strong> – list of topic labelling models</li>
+<li><strong>model_names</strong> – list of model names</li>
+<li><strong>model_inputs</strong> – list of input data for models</li>
+<li><strong>Y</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>cv</strong> – number of folds for cross-validation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, list of axes)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.topic_labelling_scatter_plots">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">topic_labelling_scatter_plots</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em>, <em>sample_min=None</em>, <em>thresholds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#topic_labelling_scatter_plots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.topic_labelling_scatter_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create scatter plots comparing precision, recall and number of samples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+<li><strong>sample_min</strong> – minimum number of examples per topic</li>
+<li><strong>thresholds</strong> – list of thresholds per category (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, list of axes)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.plot.topic_migration_matrix">
+<code class="descclassname">atnlp.eval.plot.</code><code class="descname">topic_migration_matrix</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/plot.html#topic_migration_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.plot.topic_migration_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MxM migration matrix for M topics</p>
+<p>Each column represents a given ground truth topic label.
+Each row represents the relative frequency with which
+predicted labels are assigned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (figure, axis)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.eval.table"></span><div class="section" id="table-py">
+<h2>table.py<a class="headerlink" href="#table-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for creating performance summary tables.</p>
+<dl class="function">
+<dt id="atnlp.eval.table.multimodel_topic_labelling_summary_tables">
+<code class="descclassname">atnlp.eval.table.</code><code class="descname">multimodel_topic_labelling_summary_tables</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_preds</em>, <em>model_names</em>, <em>sample_min=None</em>, <em>thresholds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/table.html#multimodel_topic_labelling_summary_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.table.multimodel_topic_labelling_summary_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dictionary of topic labelling summary tables for multiple model predictions</p>
+<p>The dictionary includes a single table for each of the metrics included in
+<a class="reference internal" href="#atnlp.eval.table.topic_labelling_summary_table" title="atnlp.eval.table.topic_labelling_summary_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">topic_labelling_summary_table()</span></code></a>, where the key is the metric name.</p>
+<p>An overall summary table (with key <em>summary</em>) is also provided, including the following metrics:</p>
+<ul class="simple">
+<li>pre_mic, rec_mic, f1_mic: precision, recall and f1 scores using ‘micro’ averaging over topics</li>
+<li>recall_all: recall calculated requiring all labels in document correct (see <a class="reference internal" href="#atnlp.eval.metrics.recall_all_score" title="atnlp.eval.metrics.recall_all_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">atnlp.eval.metrics.recall_all_score()</span></code></a>)</li>
+<li>flpd, mlpd: false/missing labels per document (see <a class="reference internal" href="#atnlp.eval.metrics.flpd_score" title="atnlp.eval.metrics.flpd_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">atnlp.eval.metrics.flpd_score()</span></code></a>, <a class="reference internal" href="#atnlp.eval.metrics.mlpd_score" title="atnlp.eval.metrics.mlpd_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">atnlp.eval.metrics.mlpd_score()</span></code></a>)</li>
+</ul>
+<p>In each table, metrics are provided for each of the models provided.</p>
+<p>If <em>sample_min</em> is specified, topics with fewer examples will be omitted.</p>
+<p><em>thresholds</em> is a list of one threshold per category per model, which if specified,
+will be applied to <em>Y_pred</em> to generate class predictions. In this case
+<em>Y_pred</em> is assumed to be a matrix of class probability scores rather than
+predictions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_preds</strong> – list of topic predictions for each model (one-hot format)</li>
+<li><strong>model_names</strong> – name of each model</li>
+<li><strong>sample_min</strong> – minimum number of examples per topic</li>
+<li><strong>thresholds</strong> – list of thresholds per category (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">dict of summary tables (pandas DataFrames)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.eval.table.topic_labelling_summary_table">
+<code class="descclassname">atnlp.eval.table.</code><code class="descname">topic_labelling_summary_table</code><span class="sig-paren">(</span><em>Y_true</em>, <em>Y_pred</em>, <em>sample_min=None</em>, <em>thresholds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/eval/table.html#topic_labelling_summary_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.eval.table.topic_labelling_summary_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return topic labelling summary table for single model predictions</p>
+<p>Contents of the table includes the following entries per topic:</p>
+<ul class="simple">
+<li>samples: total number of examples</li>
+<li>standard metrics: precision, recall, f1</li>
+<li>fl: total number of false labels (for topic)</li>
+<li>flps: false labels for topic / topic samples</li>
+<li>flpd: false labels for topic / total documents</li>
+<li>ml: total numebr of missing labels (for topic)</li>
+<li>mlps: missing labels for topic / topic samples</li>
+<li>mlpd: missing labels for topic / total documents</li>
+</ul>
+<p>If <em>sample_min</em> is specified, topics with fewer examples will be omitted.</p>
+<p><em>thresholds</em> is a list of one threshold per category, which if specified,
+will be applied to <em>Y_pred</em> to generate class predictions. In this case
+<em>Y_pred</em> is assumed to be a matrix of class probability scores rather than
+predictions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y_true</strong> – ground truth topic labels (one-hot format)</li>
+<li><strong>Y_pred</strong> – topic predictions (one-hot format)</li>
+<li><strong>sample_min</strong> – minimum number of examples per topic</li>
+<li><strong>thresholds</strong> – list of thresholds per category (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">summary table (pandas DataFrame)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="atnlp.model.html" class="btn btn-neutral float-right" title="atnlp.model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="atnlp.data.html" class="btn btn-neutral" title="atnlp.data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

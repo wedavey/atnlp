@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.model &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="atnlp.eval" href="atnlp.eval.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configs.html">Configs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../source.html">Source Code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="atnlp.core.html">atnlp.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.data.html">atnlp.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.eval.html">atnlp.eval</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">atnlp.model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#grid-py">grid.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#io-py">io.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tune-py">tune.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wordmatch-py">wordmatch.py</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../source.html">Source Code</a> &raquo;</li>
+        
+      <li>atnlp.model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/atnlp.model.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-atnlp.model">
+<span id="atnlp-model"></span><h1>atnlp.model<a class="headerlink" href="#module-atnlp.model" title="Permalink to this headline">¶</a></h1>
+<p>Model building, training, tuning</p>
+<span class="target" id="module-atnlp.model.grid"></span><div class="section" id="grid-py">
+<h2>grid.py<a class="headerlink" href="#grid-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for creating hyperparameter grid scans</p>
+<dl class="function">
+<dt id="atnlp.model.grid.create">
+<code class="descclassname">atnlp.model.grid.</code><code class="descname">create</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/grid.html#create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.grid.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return parameter grid (cross-product of individual parameter scans)</p>
+<dl class="docutils">
+<dt>The scan is defined by the <em>params</em> dictionary, where parameters to</dt>
+<dd>scan should be given a list of parameter values. Ie it should be in format:</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;par1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">],</span>
+ <span class="s1">&#39;par2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">val3</span><span class="p">],</span>
+ <span class="s1">&#39;par3&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val1</span><span class="p">]</span>
+ <span class="o">...</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>params</strong> – params dictionary (with lists for parameters to be scanned)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">model params for each scan point (list of dicts)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.model.grid.tofile">
+<code class="descclassname">atnlp.model.grid.</code><code class="descname">tofile</code><span class="sig-paren">(</span><em>grid</em>, <em>counter</em>, <em>exec</em>, <em>filename='grid.sh'</em>, <em>shutdown=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/grid.html#tofile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.grid.tofile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write parameter grid as sequence of commands in bash script</p>
+<p><em>exec</em> is the command line function</p>
+<p><em>counter</em> is a flag passed to the command line function that
+receives the command index as a string format argument. It can
+be used to increment the output model number, eg <cite>-o model.{}.h5</cite></p>
+<p>If <em>shutdown</em> is true, a shutdown command will be included
+at the end of the script (useful for shutting down virtual
+instances after completing scan eg. in google cloud).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>grid</strong> – parameter grid</li>
+<li><strong>counter</strong> – command line increment flag (string)</li>
+<li><strong>exec</strong> – command line exec (string)</li>
+<li><strong>filename</strong> – output file name</li>
+<li><strong>shutdown</strong> – include shutdown command</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.model.io"></span><div class="section" id="io-py">
+<h2>io.py<a class="headerlink" href="#io-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for reading and writing models</p>
+</div>
+<span class="target" id="module-atnlp.model.tune"></span><div class="section" id="tune-py">
+<h2>tune.py<a class="headerlink" href="#tune-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for tuning models</p>
+<dl class="function">
+<dt id="atnlp.model.tune.find_threshold">
+<code class="descclassname">atnlp.model.tune.</code><code class="descname">find_threshold</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_score</em>, <em>target_contamination=0.01</em>, <em>show=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/tune.html#find_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.tune.find_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return binary classification probability threshold that yields contamination closest to target</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> – ground truth labels</li>
+<li><strong>y_score</strong> – predicted class scores</li>
+<li><strong>target_contamination</strong> – target level of contamination (1-precision)</li>
+<li><strong>show</strong> – make plots</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">optimal threshold</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.model.tune.fit_xgb_model">
+<code class="descclassname">atnlp.model.tune.</code><code class="descname">fit_xgb_model</code><span class="sig-paren">(</span><em>alg</em>, <em>X</em>, <em>y</em>, <em>X_test</em>, <em>y_test</em>, <em>useTrainCV=True</em>, <em>cv_folds=5</em>, <em>early_stopping_rounds=50</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/tune.html#fit_xgb_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.tune.fit_xgb_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit xgboost model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>alg</strong> – XGBClassifier (sklearn api class)</li>
+<li><strong>X</strong> – training data</li>
+<li><strong>y</strong> – training labels</li>
+<li><strong>X_test</strong> – testing data</li>
+<li><strong>y_test</strong> – testing labels</li>
+<li><strong>useTrainCV</strong> – use cross validation</li>
+<li><strong>cv_folds</strong> – number of folds for cross-validation</li>
+<li><strong>early_stopping_rounds</strong> – minimum number of rounds before early stopping</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.model.tune.grid_search">
+<code class="descclassname">atnlp.model.tune.</code><code class="descname">grid_search</code><span class="sig-paren">(</span><em>X_train</em>, <em>y_train</em>, <em>model</em>, <em>pname</em>, <em>pvals</em>, <em>scoring=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/tune.html#grid_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.tune.grid_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform 1D model hyper-parameter scan using 5-fold cross-validation</p>
+<p>The sklearn grid is returned and a plot of the performance is made.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X_train</strong> – training data</li>
+<li><strong>y_train</strong> – ground truth labels</li>
+<li><strong>model</strong> – model</li>
+<li><strong>pname</strong> – model hyperparameter name</li>
+<li><strong>pvals</strong> – model hyperparameter values</li>
+<li><strong>scoring</strong> – sklearn performance metric (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">sklearn GridSearchCV</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.model.wordmatch"></span><div class="section" id="wordmatch-py">
+<h2>wordmatch.py<a class="headerlink" href="#wordmatch-py" title="Permalink to this headline">¶</a></h2>
+<p>Implements key-word based topic labelling classifier</p>
+<dl class="class">
+<dt id="atnlp.model.wordmatch.WordMatchClassifier">
+<em class="property">class </em><code class="descclassname">atnlp.model.wordmatch.</code><code class="descname">WordMatchClassifier</code><span class="sig-paren">(</span><em>df_threshold=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/wordmatch.html#WordMatchClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.wordmatch.WordMatchClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keyword based binary topic classifier</p>
+<p>The classifier works by assigning the positive class to
+any example that contains any of the given keywords.
+It is assumed the input data is in the bag-of-words format.</p>
+<p>The set of keywords is fit to the training data using the
+following algorithm. Initially, a single keyword that
+maximises $rp^4$ is selected, where $r$ is recall and $p$
+is precision. The choice $p^4$ is made to strongly penalise
+false positives. This process is repeated, adding keywords
+until the metric decreases.</p>
+<p>TODO: allow predefinition of keywords, that would then be built on?
+TODO: include max number of words as hyperparameter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>df_threshold</strong> – minimum document frequency for keywords</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="atnlp.model.wordmatch.WordMatchClassifier.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/wordmatch.html#WordMatchClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.wordmatch.WordMatchClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit model to data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>X</strong> – data (bag-of-words format)</li>
+<li><strong>y</strong> – binary classification labels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="atnlp.model.wordmatch.WordMatchClassifier.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/wordmatch.html#WordMatchClassifier.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.wordmatch.WordMatchClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.model.wordmatch.display_keywords">
+<code class="descclassname">atnlp.model.wordmatch.</code><code class="descname">display_keywords</code><span class="sig-paren">(</span><em>model</em>, <em>topic_names</em>, <em>vocab</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/wordmatch.html#display_keywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.wordmatch.display_keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print keywords for WordMatchClassifier instances in OneVsRestClassifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> – OneVsRestClassifier containing WordMatchClassifier instances</li>
+<li><strong>topic_names</strong> – topic for each model instance in OneVsRest</li>
+<li><strong>vocab</strong> – id-to-word dictionary for bag-of-words input data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.model.wordmatch.get_keyword_dataframe">
+<code class="descclassname">atnlp.model.wordmatch.</code><code class="descname">get_keyword_dataframe</code><span class="sig-paren">(</span><em>model</em>, <em>topic_names</em>, <em>vocab</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/model/wordmatch.html#get_keyword_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.model.wordmatch.get_keyword_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return pandas DataFrame with keywords for WordMatchClassifier instances in OneVsRestClassifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> – OneVsRestClassifier containing WordMatchClassifier instances</li>
+<li><strong>topic_names</strong> – topic for each model instance in OneVsRest</li>
+<li><strong>vocab</strong> – id-to-word dictionary for bag-of-words input data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="atnlp.eval.html" class="btn btn-neutral" title="atnlp.eval" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

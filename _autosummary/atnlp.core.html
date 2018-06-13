@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.core &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atnlp.data" href="atnlp.data.html" />
+    <link rel="prev" title="Source Code" href="../source.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configs.html">Configs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../source.html">Source Code</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">atnlp.core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpers-py">helpers.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logger-py">logger.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-py">setup.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.data.html">atnlp.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.eval.html">atnlp.eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.model.html">atnlp.model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../source.html">Source Code</a> &raquo;</li>
+        
+      <li>atnlp.core</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/atnlp.core.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-atnlp.core">
+<span id="atnlp-core"></span><h1>atnlp.core<a class="headerlink" href="#module-atnlp.core" title="Permalink to this headline">¶</a></h1>
+<p>Core functionality</p>
+<span class="target" id="module-atnlp.core.helpers"></span><div class="section" id="helpers-py">
+<h2>helpers.py<a class="headerlink" href="#helpers-py" title="Permalink to this headline">¶</a></h2>
+<p>Collection of global framework helper functions</p>
+<dl class="function">
+<dt id="atnlp.core.helpers.dynamic_import">
+<code class="descclassname">atnlp.core.helpers.</code><code class="descname">dynamic_import</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/helpers.html#dynamic_import"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.helpers.dynamic_import" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import and return module from it’s file path</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> – path to module in file system</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">module</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.helpers.get_modules">
+<code class="descclassname">atnlp.core.helpers.</code><code class="descname">get_modules</code><span class="sig-paren">(</span><em>module</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/helpers.html#get_modules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.helpers.get_modules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively return all submodule names</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>module</strong> – module name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of submodules</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.helpers.start_timer">
+<code class="descclassname">atnlp.core.helpers.</code><code class="descname">start_timer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/helpers.html#start_timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.helpers.start_timer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current time</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.helpers.stop_timer">
+<code class="descclassname">atnlp.core.helpers.</code><code class="descname">stop_timer</code><span class="sig-paren">(</span><em>ti</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/helpers.html#stop_timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.helpers.stop_timer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarize job timing</p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.core.logger"></span><div class="section" id="logger-py">
+<h2>logger.py<a class="headerlink" href="#logger-py" title="Permalink to this headline">¶</a></h2>
+<p>Framework logging functionality</p>
+<dl class="data">
+<dt id="atnlp.core.logger.gInitialized">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">gInitialized</code><em class="property"> = False</em><a class="headerlink" href="#atnlp.core.logger.gInitialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>is global logger initialized (global variable)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.logger.initialize">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">initialize</code><span class="sig-paren">(</span><em>level=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/logger.html#initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.logger.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize global logger</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<em>logging.LEVEL</em><em> (</em><em>eg. DEBUG</em><em>, </em><em>INFO</em><em>, </em><em>WARNING...</em><em>)</em>) – logging output level</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.logger.log">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/logger.html#log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.logger.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return global logger</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.logger.section_break">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">section_break</code><span class="sig-paren">(</span><em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/logger.html#section_break"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.logger.section_break" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print section break to logger (at INFO level)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> – section title (optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.logger.setLevel">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">setLevel</code><span class="sig-paren">(</span><em>level</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/logger.html#setLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.logger.setLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set global logging level</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.logger.supports_color">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">supports_color</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/logger.html#supports_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.logger.supports_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the running system’s terminal supports color, and False
+otherwise.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.core.logger.title_break">
+<code class="descclassname">atnlp.core.logger.</code><code class="descname">title_break</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/logger.html#title_break"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.logger.title_break" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print title to logger (at INFO level)</p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.core.setup"></span><div class="section" id="setup-py">
+<h2>setup.py<a class="headerlink" href="#setup-py" title="Permalink to this headline">¶</a></h2>
+<p>Function to setup the atnlp framework (call it before using the framework).</p>
+<dl class="function">
+<dt id="atnlp.core.setup.setup">
+<code class="descclassname">atnlp.core.setup.</code><code class="descname">setup</code><span class="sig-paren">(</span><em>log_level=None</em>, <em>suppress_warnings=None</em>, <em>tf_loglvl=2</em>, <em>batch_mode=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/core/setup.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.core.setup.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global setup for atnlp framework</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>log_level</strong> (<em>logging.LEVEL</em><em> (</em><em>eg. DEBUG</em><em>, </em><em>INFO</em><em>, </em><em>WARNING...</em><em>)</em>) – logging output level</li>
+<li><strong>suppress_warnings</strong> (<em>bool</em>) – list of warnings to suppress</li>
+<li><strong>tf_loglvl</strong> (<em>int</em>) – tensorflow log level</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="atnlp.data.html" class="btn btn-neutral float-right" title="atnlp.data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../source.html" class="btn btn-neutral" title="Source Code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

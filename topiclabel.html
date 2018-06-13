@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Topic labelling &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Topic labelling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reuters-dataset">Reuters dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-building">Model building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train-model">Train model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluate-model">Evaluate model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-predictions">Model predictions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configs.html">Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source.html">Source Code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Topic labelling</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/topiclabel.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="topic-labelling">
+<h1>Topic labelling<a class="headerlink" href="#topic-labelling" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>convert input corpus into raw text format</li>
+<li>build/train topic labelling models</li>
+<li>evaluate and compare model performance</li>
+</ul>
+</div>
+<div class="section" id="reuters-dataset">
+<h2>Reuters dataset<a class="headerlink" href="#reuters-dataset" title="Permalink to this headline">¶</a></h2>
+<p>As a simple example we’ll use the Reuters corpus (available through the nltk library).
+The corpus consists of ~10k news articles (70/30 train/test split) with ~90 different topic labels.
+Each document can be attributed multiple topic labels and the topics have a highly non-uniform
+distribution.</p>
+<p>Go to a new work area and issue:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reuters_to_txt</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>This will create the following files:</p>
+<blockquote>
+<div><ul class="simple">
+<li>data_train.txt</li>
+<li>data_test.txt</li>
+<li>labels_train.txt</li>
+<li>labels_test.txt</li>
+</ul>
+</div></blockquote>
+<p>The data files contain the raw text from the news articles (one document per line).
+The labels files contain the topic labels in a one-hot format (an MxN boolean matrix where M is the number of
+documents, N is the number of topics, indicating which labels are attributed to each document).</p>
+<p>This is the standard format used by the library. If you convert other corpora into this format,
+then you will easily be able to apply the atnlp topic modelling tools to them.</p>
+</div>
+<div class="section" id="model-building">
+<h2>Model building<a class="headerlink" href="#model-building" title="Permalink to this headline">¶</a></h2>
+<p>atnlp comes with a number of preconfigured topic labelling models.
+The models take in raw text and produce labels in a one-hot format.
+The text parsing and modelling is typically split into a few steps
+(called a pipeline). Blueprints for some basic pipelines are
+provided at <a class="reference internal" href="models.html#models"><span class="std std-ref">Models</span></a>. User-defined pipelines can be utilised
+by placing the pipeline definition (python file) in your local
+working directory.</p>
+<p>Each of the algorithms in the pipelines typically have a number
+of hyperparameters, which the user will typically want to tune.
+Pipelines are configured using yaml. Some basic configurations
+for the atnlp pipelines can be found at <a class="reference internal" href="configs.html#configs"><span class="std std-ref">Configs</span></a>. The config
+first defines the blueprint for the pipeline. Pipelines
+already in the <code class="docutils literal notranslate"><span class="pre">share/models</span></code> path can be referenced by
+filename without <code class="docutils literal notranslate"><span class="pre">.py</span></code> extension, while for user-defined
+models an absolute/relative path including <code class="docutils literal notranslate"><span class="pre">.py</span></code> extension must
+be given.</p>
+<p>User-defined configs can also be made, and should be placed
+in the working directory.</p>
+</div>
+<div class="section" id="train-model">
+<h2>Train model<a class="headerlink" href="#train-model" title="Permalink to this headline">¶</a></h2>
+<p>Let’s train the default svm model on the training dataset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="n">data_train</span><span class="o">.</span><span class="n">txt</span> <span class="n">labels_train</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">m</span> <span class="n">svm</span>
+</pre></div>
+</div>
+<p>The model is saved to <code class="docutils literal notranslate"><span class="pre">svm.pkl</span></code>, which can then be used to provide predictions.</p>
+<p>To train a user-defined model, provide full path to your model config (including <code class="docutils literal notranslate"><span class="pre">.yml</span></code> extension).</p>
+</div>
+<div class="section" id="evaluate-model">
+<h2>Evaluate model<a class="headerlink" href="#evaluate-model" title="Permalink to this headline">¶</a></h2>
+<p>A quick evaluation of the topic modelling performance can be obtained via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">data_test</span><span class="o">.</span><span class="n">txt</span> <span class="n">labels_test</span><span class="o">.</span><span class="n">txt</span> <span class="n">svm</span><span class="o">.</span><span class="n">pkl</span>
+</pre></div>
+</div>
+<p>Note: multiple models can be passed for comparisons</p>
+<p>This will generate and html report.</p>
+<p>For more detailed investigations we suggest using a jupyter notebook. You may want to take advantage of
+the functionality provided in <a class="reference internal" href="_autosummary/atnlp.eval.html#module-atnlp.eval" title="atnlp.eval"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atnlp.eval</span></code></a>.</p>
+</div>
+<div class="section" id="model-predictions">
+<h2>Model predictions<a class="headerlink" href="#model-predictions" title="Permalink to this headline">¶</a></h2>
+<p>Model predictions in txt format can be obtained using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">predict</span><span class="o">.</span><span class="n">py</span> <span class="n">data_test</span><span class="o">.</span><span class="n">txt</span> <span class="n">svm</span><span class="o">.</span><span class="n">pkl</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models.html" class="btn btn-neutral float-right" title="Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

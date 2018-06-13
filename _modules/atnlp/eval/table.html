@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.eval.table &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configs.html">Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source.html">Source Code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>atnlp.eval.table</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for atnlp.eval.table</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">table.py</span>
+<span class="sd">~~~~~~~~</span>
+
+<span class="sd">Functionality for creating performance summary tables.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Will Davey&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;wedavey@gmail.com&quot;</span>
+<span class="n">__created__</span> <span class="o">=</span> <span class="s2">&quot;2018-05-05&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2018 Will Davey&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT https://opensource.org/licenses/MIT&quot;</span>
+
+<span class="c1"># standard imports</span>
+
+<span class="c1"># third party imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">precision_recall_fscore_support</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">atnlp.eval.metrics</span> <span class="k">import</span> <span class="n">recall_all_score</span><span class="p">,</span> <span class="n">flpd_score</span><span class="p">,</span> <span class="n">mlpd_score</span>
+
+<span class="c1"># globals</span>
+
+
+<div class="viewcode-block" id="topic_labelling_summary_table"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.table.topic_labelling_summary_table">[docs]</a><span class="k">def</span> <span class="nf">topic_labelling_summary_table</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">,</span> <span class="n">sample_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return topic labelling summary table for single model predictions</span>
+
+<span class="sd">    Contents of the table includes the following entries per topic:</span>
+
+<span class="sd">    - samples: total number of examples</span>
+<span class="sd">    - standard metrics: precision, recall, f1</span>
+<span class="sd">    - fl: total number of false labels (for topic)</span>
+<span class="sd">    - flps: false labels for topic / topic samples</span>
+<span class="sd">    - flpd: false labels for topic / total documents</span>
+<span class="sd">    - ml: total numebr of missing labels (for topic)</span>
+<span class="sd">    - mlps: missing labels for topic / topic samples</span>
+<span class="sd">    - mlpd: missing labels for topic / total documents</span>
+
+<span class="sd">    If *sample_min* is specified, topics with fewer examples will be omitted.</span>
+
+<span class="sd">    *thresholds* is a list of one threshold per category, which if specified,</span>
+<span class="sd">    will be applied to *Y_pred* to generate class predictions. In this case</span>
+<span class="sd">    *Y_pred* is assumed to be a matrix of class probability scores rather than</span>
+<span class="sd">    predictions.</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_pred: topic predictions (one-hot format)</span>
+<span class="sd">    :param sample_min: minimum number of examples per topic</span>
+<span class="sd">    :param thresholds: list of thresholds per category (optional)</span>
+<span class="sd">    :return: summary table (pandas DataFrame)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># filter topics with too few samples    </span>
+    <span class="k">if</span> <span class="n">sample_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">Y_true</span><span class="p">[</span><span class="n">topic</span><span class="p">])</span> <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+        <span class="n">Y_true</span> <span class="o">=</span> <span class="n">Y_true</span><span class="p">[</span><span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">samples</span> <span class="o">&gt;</span> <span class="n">sample_min</span><span class="p">]]</span>
+        <span class="n">Y_pred</span> <span class="o">=</span> <span class="n">Y_pred</span><span class="p">[:,</span> <span class="n">samples</span> <span class="o">&gt;</span> <span class="n">sample_min</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">samples</span> <span class="o">&gt;</span> <span class="n">sample_min</span><span class="p">]</span>
+
+    <span class="c1"># define column order</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="s1">&#39;samples&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="s1">&#39;recall&#39;</span><span class="p">,</span> <span class="s1">&#39;f1&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;fl&#39;</span><span class="p">,</span> <span class="s1">&#39;flps&#39;</span><span class="p">,</span> <span class="s1">&#39;flpd&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;ml&#39;</span><span class="p">,</span> <span class="s1">&#39;mlps&#39;</span><span class="p">,</span> <span class="s1">&#39;mlpd&#39;</span><span class="p">]</span>
+
+    <span class="c1"># build table data</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">precision_recall_fscore_support</span><span class="p">(</span><span class="n">Y_true</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">Y_pred</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]))[:</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+                       <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">)])</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y_pred</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">flps</span> <span class="o">=</span> <span class="n">fl</span> <span class="o">/</span> <span class="n">samples</span>
+    <span class="n">flpd</span> <span class="o">=</span> <span class="n">fl</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_true</span><span class="p">)</span>
+    <span class="n">ml</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">Y_pred</span> <span class="o">&amp;</span> <span class="n">Y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">mlps</span> <span class="o">=</span> <span class="n">ml</span> <span class="o">/</span> <span class="n">samples</span>
+    <span class="n">mlpd</span> <span class="o">=</span> <span class="n">ml</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_true</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;topic&#39;</span> <span class="p">:</span><span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">samples</span><span class="p">,</span>
+        <span class="s1">&#39;precision&#39;</span><span class="p">:</span> <span class="n">scores</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;recall&#39;</span><span class="p">:</span> <span class="n">scores</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;f1&#39;</span><span class="p">:</span> <span class="n">scores</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+        <span class="s1">&#39;fl&#39;</span><span class="p">:</span> <span class="n">fl</span><span class="p">,</span> <span class="s1">&#39;flps&#39;</span><span class="p">:</span><span class="n">flps</span><span class="p">,</span> <span class="s1">&#39;flpd&#39;</span><span class="p">:</span><span class="n">flpd</span><span class="p">,</span>
+        <span class="s1">&#39;ml&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">,</span> <span class="s1">&#39;mlps&#39;</span><span class="p">:</span><span class="n">mlps</span><span class="p">,</span> <span class="s1">&#39;mlpd&#39;</span><span class="p">:</span><span class="n">mlpd</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thresholds</span>
+        <span class="n">columns</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">]</span>
+
+    <span class="c1"># return table sorted by number of samples</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;samples&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">round</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="mi">3</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="s1">&#39;samples&#39;</span><span class="p">,</span> <span class="s1">&#39;fl&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">,</span> <span class="s1">&#39;threshold&#39;</span><span class="p">]})</span></div>
+
+
+<div class="viewcode-block" id="multimodel_topic_labelling_summary_tables"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.table.multimodel_topic_labelling_summary_tables">[docs]</a><span class="k">def</span> <span class="nf">multimodel_topic_labelling_summary_tables</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_preds</span><span class="p">,</span> <span class="n">model_names</span><span class="p">,</span> <span class="n">sample_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of topic labelling summary tables for multiple model predictions</span>
+
+<span class="sd">    The dictionary includes a single table for each of the metrics included in</span>
+<span class="sd">    :func:`topic_labelling_summary_table`, where the key is the metric name.</span>
+
+<span class="sd">    An overall summary table (with key *summary*) is also provided, including the following metrics:</span>
+
+<span class="sd">    - pre_mic, rec_mic, f1_mic: precision, recall and f1 scores using &#39;micro&#39; averaging over topics</span>
+<span class="sd">    - recall_all: recall calculated requiring all labels in document correct (see :func:`atnlp.eval.metrics.recall_all_score`)</span>
+<span class="sd">    - flpd, mlpd: false/missing labels per document (see :func:`atnlp.eval.metrics.flpd_score`, :func:`atnlp.eval.metrics.mlpd_score`)</span>
+
+<span class="sd">    In each table, metrics are provided for each of the models provided.</span>
+
+<span class="sd">    If *sample_min* is specified, topics with fewer examples will be omitted.</span>
+
+<span class="sd">    *thresholds* is a list of one threshold per category per model, which if specified,</span>
+<span class="sd">    will be applied to *Y_pred* to generate class predictions. In this case</span>
+<span class="sd">    *Y_pred* is assumed to be a matrix of class probability scores rather than</span>
+<span class="sd">    predictions.</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_preds: list of topic predictions for each model (one-hot format)</span>
+<span class="sd">    :param model_names: name of each model</span>
+<span class="sd">    :param sample_min: minimum number of examples per topic</span>
+<span class="sd">    :param thresholds: list of thresholds per category (optional)</span>
+<span class="sd">    :return: dict of summary tables (pandas DataFrames)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_names</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_preds</span><span class="p">),</span> <span class="s2">&quot;model_names must be same length as Y_preds!&quot;</span>
+    <span class="k">if</span> <span class="n">thresholds</span><span class="p">:</span> <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">thresholds</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_preds</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>          <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_preds</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_names</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="c1"># get per-model tables</span>
+    <span class="n">model_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">topic_labelling_summary_table</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_preds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                  <span class="n">sample_min</span><span class="o">=</span><span class="n">sample_min</span><span class="p">,</span>
+                                                  <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="c1"># create per-topic summary tables for each metric</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">model_tables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;topic&#39;</span><span class="p">]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">model_tables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;samples&#39;</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">model_tables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span><span class="s1">&#39;samples&#39;</span><span class="p">,</span><span class="s1">&#39;threshold&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;topic&#39;</span><span class="p">:</span><span class="n">topic</span><span class="p">,</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span><span class="n">samples</span><span class="p">},</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span><span class="s1">&#39;samples&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">model_names</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model_names</span><span class="p">):</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_tables</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">c</span><span class="p">]</span>
+        <span class="n">tables</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+
+    <span class="c1"># create overall metric table</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">precision_recall_fscore_support</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">))[:</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+                       <span class="k">for</span> <span class="n">Y_pred</span> <span class="ow">in</span> <span class="n">Y_preds</span><span class="p">])</span>
+
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_mic&#39;</span><span class="p">,</span> <span class="s1">&#39;rec_mic&#39;</span><span class="p">,</span> <span class="s1">&#39;f1_mic&#39;</span><span class="p">,</span> <span class="s1">&#39;rec_all&#39;</span><span class="p">,</span> <span class="s1">&#39;flpd&#39;</span><span class="p">,</span> <span class="s1">&#39;mlpd&#39;</span><span class="p">]</span>
+    <span class="n">ave_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">model_names</span><span class="p">,</span>
+            <span class="s1">&#39;pre_mic&#39;</span><span class="p">:</span> <span class="n">scores</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;rec_mic&#39;</span><span class="p">:</span> <span class="n">scores</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;f1_mic&#39;</span><span class="p">:</span> <span class="n">scores</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="s1">&#39;rec_all&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">recall_all_score</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">Y_pred</span> <span class="ow">in</span> <span class="n">Y_preds</span><span class="p">],</span>
+            <span class="s1">&#39;flpd&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">flpd_score</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">Y_pred</span> <span class="ow">in</span> <span class="n">Y_preds</span><span class="p">],</span>
+            <span class="s1">&#39;mlpd&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">mlpd_score</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">Y_pred</span> <span class="ow">in</span> <span class="n">Y_preds</span><span class="p">],</span>
+            <span class="p">},</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;f1_mic&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">round</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="mi">3</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]})</span>
+
+    <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ave_table</span>
+    <span class="k">return</span> <span class="n">tables</span></div>
+
+
+<span class="c1"># EOF</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

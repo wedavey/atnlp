@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.data.parse &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configs.html">Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source.html">Source Code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>atnlp.data.parse</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for atnlp.data.parse</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">parse.py</span>
+<span class="sd">~~~~~~~~</span>
+
+<span class="sd">Functionality for parsing text inputs.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Will Davey&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;wedavey@gmail.com&quot;</span>
+<span class="n">__created__</span> <span class="o">=</span> <span class="s2">&quot;2018-05-05&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2018 Will Davey&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT https://opensource.org/licenses/MIT&quot;</span>
+
+<span class="c1"># standard imports</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="c1"># third party imports</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.stop_words</span> <span class="k">import</span> <span class="n">ENGLISH_STOP_WORDS</span> <span class="k">as</span> <span class="n">STOPWORDS</span>
+
+<span class="c1"># local imports</span>
+
+<span class="c1"># globals</span>
+<span class="n">TOKEN_PATTERN1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?u)\b\w\w+\b&quot;</span><span class="p">)</span>
+<span class="n">PAD_WORD</span> <span class="o">=</span> <span class="s2">&quot;&lt;pad&gt;&quot;</span>
+<span class="n">UNKNOWN_WORD</span> <span class="o">=</span> <span class="s2">&quot;&lt;uw&gt;&quot;</span>
+
+
+<span class="c1"># functions</span>
+<div class="viewcode-block" id="tokenize1"><a class="viewcode-back" href="../../../_autosummary/atnlp.data.html#atnlp.data.parse.tokenize1">[docs]</a><span class="k">def</span> <span class="nf">tokenize1</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return tokenized list of strings from raw text input</span>
+
+<span class="sd">    :param text: raw text (string)</span>
+<span class="sd">    :return: list of tokens (strings)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">TOKEN_PATTERN1</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="tokenize_keras"><a class="viewcode-back" href="../../../_autosummary/atnlp.data.html#atnlp.data.parse.tokenize_keras">[docs]</a><span class="k">def</span> <span class="nf">tokenize_keras</span><span class="p">(</span><span class="n">raw_data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return tokenized list of strings from raw text input using keras functionality</span>
+
+<span class="sd">    :param raw_data: raw text (string)</span>
+<span class="sd">    :return: list of tokens (strings)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">keras.preprocessing.text</span> <span class="k">import</span> <span class="n">text_to_word_sequence</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">text_to_word_sequence</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">raw_data</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="filter1"><a class="viewcode-back" href="../../../_autosummary/atnlp.data.html#atnlp.data.parse.filter1">[docs]</a><span class="k">def</span> <span class="nf">filter1</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return True if word passes filter</span>
+
+<span class="sd">    :param word: string</span>
+<span class="sd">    :return: True or False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">STOPWORDS</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="process_text"><a class="viewcode-back" href="../../../_autosummary/atnlp.data.html#atnlp.data.parse.process_text">[docs]</a><span class="k">def</span> <span class="nf">process_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tokenize</span><span class="o">=</span><span class="n">tokenize1</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">filter1</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return processed list of words from raw text input</span>
+
+<span class="sd">    To be honest, we&#39;re currently using sklearn CountVectorizer and</span>
+<span class="sd">    keras text_to_word_sequence instead of this function.</span>
+
+<span class="sd">    :param text: raw text input (string)</span>
+<span class="sd">    :param tokenize: tokenizing function</span>
+<span class="sd">    :param filter: filter function</span>
+<span class="sd">    :param stem: stemming function</span>
+<span class="sd">    :param lower: convert input text to lowercase if true</span>
+<span class="sd">    :return: list of strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">tokenize</span><span class="p">,</span> <span class="s2">&quot;Must provide tokenize method for preprocess_text&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">lower</span><span class="p">:</span> <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="nb">filter</span><span class="p">(</span><span class="n">w</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">stem</span><span class="p">:</span> <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">words</span></div>
+
+
+<div class="viewcode-block" id="build_vocab"><a class="viewcode-back" href="../../../_autosummary/atnlp.data.html#atnlp.data.parse.build_vocab">[docs]</a><span class="k">def</span> <span class="nf">build_vocab</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return dict of word-to-id from raw text data</span>
+
+<span class="sd">    If max_size is specified, vocab is truncated to set</span>
+<span class="sd">    of highest frequency words within size.</span>
+
+<span class="sd">    :param raw_data: list of strings</span>
+<span class="sd">    :param max_size: maximum size of vocab</span>
+<span class="sd">    :return: word-to-id dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">tokenize_keras</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">count_pairs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                         <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">max_size</span><span class="p">:</span> <span class="n">count_pairs</span> <span class="o">=</span> <span class="n">count_pairs</span><span class="p">[:</span><span class="n">max_size</span><span class="p">]</span>
+    <span class="n">words</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">count_pairs</span><span class="p">))</span>
+    <span class="n">word_to_id</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">))))</span>
+    <span class="n">word_to_id</span><span class="p">[</span><span class="n">UNKNOWN_WORD</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_to_id</span><span class="p">)</span>
+    <span class="n">word_to_id</span><span class="p">[</span><span class="n">PAD_WORD</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_to_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">word_to_id</span></div>
+
+
+<div class="viewcode-block" id="raw_to_ids"><a class="viewcode-back" href="../../../_autosummary/atnlp.data.html#atnlp.data.parse.raw_to_ids">[docs]</a><span class="k">def</span> <span class="nf">raw_to_ids</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">word_to_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert raw text data into integer ids</span>
+
+<span class="sd">    :param raw_data: raw text data (list of strings)</span>
+<span class="sd">    :param word_to_id: word-to-id dict</span>
+<span class="sd">    :return: list of list of integer ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="n">tokenize_keras</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="n">word_to_id</span><span class="p">[</span><span class="n">UNKNOWN_WORD</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">word_to_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">uid</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span></div>
+
+
+<span class="c1"># EOF</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

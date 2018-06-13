@@ -1,0 +1,933 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.eval.plot &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configs.html">Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source.html">Source Code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>atnlp.eval.plot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for atnlp.eval.plot</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">plot.py</span>
+<span class="sd">~~~~~~~</span>
+
+<span class="sd">Functionality for creating performance summary plots.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Will Davey&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;wedavey@gmail.com&quot;</span>
+<span class="n">__created__</span> <span class="o">=</span> <span class="s2">&quot;2018-06-08&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2018 Will Davey&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT https://opensource.org/licenses/MIT&quot;</span>
+
+<span class="c1"># standard imports</span>
+
+<span class="c1"># third party imports</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="k">import</span> <span class="n">CSS4_COLORS</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.scorer</span> <span class="k">import</span> <span class="n">check_scoring</span><span class="p">,</span> <span class="n">_PredictScorer</span><span class="p">,</span> <span class="n">_ProbaScorer</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">clone</span> <span class="k">as</span> <span class="n">clone_model</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">atnlp.eval.table</span> <span class="k">import</span> <span class="n">topic_labelling_summary_table</span>
+
+<span class="c1"># globals</span>
+<span class="n">COLORS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;magenta&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">]</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">COLORS</span> <span class="o">+=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">CSS4_COLORS</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">CSS4_COLORS</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="create_awesome_plot_grid"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.create_awesome_plot_grid">[docs]</a><span class="k">def</span> <span class="nf">create_awesome_plot_grid</span><span class="p">(</span><span class="n">nminor</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">maj_h</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">maj_w</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                             <span class="n">min_xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">maj_xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maj_ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns an awesome plot grid</span>
+
+<span class="sd">     The grid includes a specified number (*nminor*) of minor</span>
+<span class="sd">     plots (unit size in the grid) and a single major plot</span>
+<span class="sd">     whose size can be specified in grid units (*maj_h* and *maj_w*).</span>
+
+<span class="sd">     The major plot is located top-right. If either dimension</span>
+<span class="sd">     is 0 the major plot is omitted.</span>
+
+<span class="sd">     The minor plots are tiled from left-to-right, top-to-bottom</span>
+<span class="sd">     on a grid of width *ncol* and will be spaced around the major</span>
+<span class="sd">     plot.</span>
+
+<span class="sd">    The grid will look something like this</span>
+
+<span class="sd">    .. code-block:: text</span>
+
+<span class="sd">        #----#----#----#---------#</span>
+<span class="sd">        |    |    |    |         |</span>
+<span class="sd">        |    |    |    |         |</span>
+<span class="sd">        #----#----#----#         |</span>
+<span class="sd">        |    |    |    |         |</span>
+<span class="sd">        |    |    |    |         |</span>
+<span class="sd">        #----#----#----#----#----#</span>
+<span class="sd">        |    |    |    |    |    |</span>
+<span class="sd">        |    |    |    |    |    |</span>
+<span class="sd">        #----#----#----#----#----#</span>
+<span class="sd">        |    |    |</span>
+<span class="sd">        |    |    | --&gt;</span>
+<span class="sd">        #----#----#</span>
+
+
+<span class="sd">    :param nminor: number of minor plots</span>
+<span class="sd">    :param ncol: width of grid (in grid units)</span>
+<span class="sd">    :param maj_h: height of major plot (in grid units)</span>
+<span class="sd">    :param maj_w: width of major plot (in grid units)</span>
+<span class="sd">    :param min_xlabel: x-axis label of minor plots</span>
+<span class="sd">    :param min_ylabel: y-axis label of minor plots</span>
+<span class="sd">    :param maj_xlabel: x-axis label of major plot</span>
+<span class="sd">    :param maj_ylabel: y-axis label of major plot</span>
+<span class="sd">    :param grid: draw grid lines (if True)</span>
+<span class="sd">    :return: tuple (figure, major axis, minor axes (flat list), minor axes (2D list))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">maj_w</span> <span class="o">&lt;=</span> <span class="n">ncol</span><span class="p">,</span> <span class="s2">&quot;Major fig cannot be wider than grid!&quot;</span>
+
+    <span class="k">def</span> <span class="nf">pad_coord</span><span class="p">(</span><span class="n">ipad</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return x-y coordinate for ith element&quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">ipad</span> <span class="o">/</span> <span class="n">ncol</span><span class="p">))</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">ipad</span> <span class="o">%</span> <span class="n">ncol</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">in_main</span><span class="p">(</span><span class="n">ipad</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return True if ith element within major plot space&quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">pad_coord</span><span class="p">(</span><span class="n">ipad</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">ncol</span> <span class="o">-</span> <span class="n">maj_w</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maj_h</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># derived quantities</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">maj_w</span> <span class="o">*</span> <span class="n">maj_h</span> <span class="o">+</span> <span class="n">nminor</span>
+    <span class="n">nrow</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">ncol</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">maj_h</span> <span class="ow">and</span> <span class="n">nminor</span> <span class="o">&lt;=</span> <span class="n">ncol</span> <span class="o">-</span> <span class="n">maj_w</span><span class="p">:</span>
+        <span class="n">ncol</span> <span class="o">=</span> <span class="n">maj_w</span> <span class="o">+</span> <span class="n">nminor</span>
+    <span class="k">if</span> <span class="n">maj_w</span><span class="p">:</span>
+        <span class="n">nrow</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nrow</span><span class="p">,</span> <span class="n">maj_h</span><span class="p">)</span>
+
+    <span class="c1"># create figure</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">ncol</span> <span class="o">/</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">nrow</span> <span class="o">/</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="c1"># create major axis</span>
+    <span class="k">if</span> <span class="n">maj_h</span> <span class="ow">and</span> <span class="n">maj_w</span><span class="p">:</span>
+        <span class="n">ax_maj</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">((</span><span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">-</span> <span class="n">maj_w</span><span class="p">),</span> <span class="n">colspan</span><span class="o">=</span><span class="n">maj_w</span><span class="p">,</span> <span class="n">rowspan</span><span class="o">=</span><span class="n">maj_h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">maj_xlabel</span><span class="p">:</span> <span class="n">ax_maj</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">maj_xlabel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">maj_ylabel</span><span class="p">:</span> <span class="n">ax_maj</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">maj_ylabel</span><span class="p">)</span>
+        <span class="n">ax_maj</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">labeltop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">grid_linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">)</span>
+        <span class="n">ax_maj</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax_maj</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># create minor axes</span>
+    <span class="n">ax_min</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ax_min_ij</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">ncol</span><span class="p">]</span> <span class="o">*</span> <span class="n">nrow</span>
+    <span class="n">ipad</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">imin</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">imin</span> <span class="o">&lt;</span> <span class="n">nminor</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_main</span><span class="p">(</span><span class="n">ipad</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">pad_coord</span><span class="p">(</span><span class="n">ipad</span><span class="p">)</span>
+            <span class="n">ax0</span> <span class="o">=</span> <span class="n">ax_min</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">ax_min</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">((</span><span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax0</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid_linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+            <span class="c1"># add top labels</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labeltop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># add right labels</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelright</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># remove inner left labels</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># set y-titles</span>
+            <span class="k">elif</span> <span class="n">min_ylabel</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">min_ylabel</span><span class="p">)</span>
+            <span class="c1"># set x-titles</span>
+            <span class="k">if</span> <span class="n">min_xlabel</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">min_xlabel</span><span class="p">)</span>
+            <span class="c1"># remove inner bottom labels</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ax_min_ij</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
+                <span class="n">ax_min_ij</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax_min_ij</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="n">ax_min</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+            <span class="n">ax_min_ij</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span>
+            <span class="n">imin</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">ipad</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_maj</span><span class="p">,</span> <span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_min_ij</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="binary_classification_accuracy_overlays"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.binary_classification_accuracy_overlays">[docs]</a><span class="k">def</span> <span class="nf">binary_classification_accuracy_overlays</span><span class="p">(</span><span class="n">classifiers</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create overlays of binary classification accuracy for multiple classifiers</span>
+
+<span class="sd">    :param classifiers: list of tuples (name, classifier)</span>
+<span class="sd">    :param X_train: training data</span>
+<span class="sd">    :param y_train: binary training labels</span>
+<span class="sd">    :param X_test: testing data</span>
+<span class="sd">    :param y_test: binary testing labels</span>
+<span class="sd">    :return: tuple (figure, axis)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">acc_train</span> <span class="o">=</span> <span class="p">[</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+               <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">]</span>
+    <span class="n">acc_test</span> <span class="o">=</span> <span class="p">[</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+               <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">]</span>
+
+    <span class="n">acc_cv</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">][</span><span class="n">c</span><span class="o">.</span><span class="n">best_index_</span><span class="p">]</span>
+             <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">]</span>
+    <span class="n">acc_err_cv</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">][</span><span class="n">c</span><span class="o">.</span><span class="n">best_index_</span><span class="p">]</span>
+             <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">]</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">]</span>
+    <span class="n">ypos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">classifiers</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ypos</span><span class="p">,</span> <span class="n">acc_cv</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">acc_err_cv</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cv&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ypos</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">acc_train</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">acc_test</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span>  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span>   <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">xmin</span> <span class="o">=</span> <span class="mf">0.98</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">acc_train</span><span class="o">+</span><span class="n">acc_test</span><span class="o">+</span><span class="n">acc_cv</span><span class="p">)</span>
+    <span class="n">xmax</span> <span class="o">=</span> <span class="mf">1.02</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="n">acc_train</span><span class="o">+</span><span class="n">acc_test</span><span class="o">+</span><span class="n">acc_cv</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span><span class="n">xmax</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="topic_labelling_scatter_plots"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.topic_labelling_scatter_plots">[docs]</a><span class="k">def</span> <span class="nf">topic_labelling_scatter_plots</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">,</span> <span class="n">sample_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create scatter plots comparing precision, recall and number of samples</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_pred: topic predictions (one-hot format)</span>
+<span class="sd">    :param sample_min: minimum number of examples per topic</span>
+<span class="sd">    :param thresholds: list of thresholds per category (optional)</span>
+<span class="sd">    :return: tuple (figure, list of axes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">topic_labelling_summary_table</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">,</span> <span class="n">sample_min</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">)</span>
+
+    <span class="c1"># Make scatter plots</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+    <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;recall&#39;</span><span class="p">],</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;precision&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;recall&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;contamination&#39;</span><span class="p">)</span>
+
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;samples&#39;</span><span class="p">],</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;recall&#39;</span><span class="p">])</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;recall&#39;</span><span class="p">)</span>
+
+    <span class="n">ax3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;samples&#39;</span><span class="p">],</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;precision&#39;</span><span class="p">])</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;contamination&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="topic_labelling_barchart"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.topic_labelling_barchart">[docs]</a><span class="k">def</span> <span class="nf">topic_labelling_barchart</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_preds</span><span class="p">,</span> <span class="n">model_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create topic labelling barchart</span>
+
+<span class="sd">    The figure includes a 1x4 grid of bar charts, illustrating</span>
+<span class="sd">    the number of samples, precision, recall and f1 scores for</span>
+<span class="sd">    each topic. The scores are overlayed for each model.</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_preds: topic predictions for each model (list of one-hot formats)</span>
+<span class="sd">    :param model_names: topic labelling model names</span>
+<span class="sd">    :return: tuple (figure, list of axes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_names</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">topic_labelling_summary_table</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_preds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;topic&#39;</span><span class="p">]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;samples&#39;</span><span class="p">]</span>
+
+    <span class="c1"># y-axis</span>
+    <span class="n">ypos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
+
+    <span class="c1"># figure</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)))</span>
+
+    <span class="c1"># samples subfig</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ypos</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Samples&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ypos</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+
+    <span class="c1"># precision</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Precision&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;precision&#39;</span><span class="p">],</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># recall</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Recall&#39;</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;recall&#39;</span><span class="p">],</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># recall</span>
+    <span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;F1&#39;</span><span class="p">)</span>
+    <span class="n">ax4</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">ax4</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;f1&#39;</span><span class="p">],</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+
+    <span class="n">ax4</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">gridlines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">gridlines</span> <span class="o">+=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xgridlines</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ygridlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">gridlines</span><span class="p">:</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s1">&#39;-.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="topic_labelling_barchart_cv"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.topic_labelling_barchart_cv">[docs]</a><span class="k">def</span> <span class="nf">topic_labelling_barchart_cv</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">model_names</span><span class="p">,</span> <span class="n">model_inputs</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create topic labelling barchart with k-fold cross-validation</span>
+
+<span class="sd">    Figure layout is the same as in :func:`topic_labelling_barchart`.</span>
+
+<span class="sd">    K-fold cross-validation is used to estimate uncertainties on the metrics.</span>
+
+<span class="sd">    :param models: list of topic labelling models</span>
+<span class="sd">    :param model_names: list of model names</span>
+<span class="sd">    :param model_inputs: list of input data for models</span>
+<span class="sd">    :param Y: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param cv: number of folds for cross-validation</span>
+<span class="sd">    :return: tuple (figure, list of axes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">cat</span><span class="p">])</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">Y</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">samples</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_cv_scores</span><span class="p">(</span><span class="n">scoring</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">cat</span><span class="p">],</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span>
+                           <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">order</span><span class="p">])])</span>
+        <span class="n">smed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">smin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">smax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">smin</span> <span class="o">-</span> <span class="n">smed</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">smax</span> <span class="o">-</span> <span class="n">smed</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">smed</span><span class="p">,</span> <span class="n">err</span><span class="p">]</span>
+
+    <span class="n">precision</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_cv_scores</span><span class="p">(</span><span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">model_inputs</span><span class="p">)]</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_cv_scores</span><span class="p">(</span><span class="s1">&#39;recall&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">model_inputs</span><span class="p">)]</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_cv_scores</span><span class="p">(</span><span class="s1">&#39;f1&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">model_inputs</span><span class="p">)]</span>
+
+    <span class="c1"># y-axis</span>
+    <span class="n">ypos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
+
+    <span class="c1"># figure</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)))</span>
+
+    <span class="c1"># samples subfig</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ypos</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Samples&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ypos</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+
+    <span class="c1"># precision</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Precision&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">med</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span> <span class="o">=</span> <span class="n">precision</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">med</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">err</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                     <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># recall</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Recall&#39;</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">med</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span> <span class="o">=</span> <span class="n">recall</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">med</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">err</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                     <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># f1</span>
+    <span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;F1&#39;</span><span class="p">)</span>
+    <span class="n">ax4</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">med</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span> <span class="o">=</span> <span class="n">f1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ax4</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">med</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">err</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                     <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">ax4</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">gridlines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">gridlines</span> <span class="o">+=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xgridlines</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ygridlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">gridlines</span><span class="p">:</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s1">&#39;-.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="background_composition_pie"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.background_composition_pie">[docs]</a><span class="k">def</span> <span class="nf">background_composition_pie</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_score</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_topic_frac</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a pie chart illustrating the major background contributions for given label</span>
+
+<span class="sd">    Background topics contributing less than *min_topic_frac* will be merged into a</span>
+<span class="sd">    single contribution called &quot;Other&quot;.</span>
+
+<span class="sd">    A bar chart is also included illustrating the overall topic composition.</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_score: topic probability predictions (shape: samples x topics)</span>
+<span class="sd">    :param topic: name of topic to investigate</span>
+<span class="sd">    :param threshold: threshold above which to investigate background contributions</span>
+<span class="sd">    :param min_topic_frac: minimum background sample fraction</span>
+<span class="sd">    :return: tuple (figure, list of axes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+    <span class="n">y_score</span> <span class="o">=</span> <span class="n">Y_score</span><span class="p">[:,</span> <span class="n">ix</span><span class="p">]</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">t</span> <span class="o">!=</span> <span class="n">topic</span><span class="p">])</span>
+    <span class="n">composition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y_true</span><span class="p">[</span><span class="n">topic</span><span class="p">][</span><span class="n">y_score</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">])</span> <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">])</span>
+
+    <span class="c1"># combine contributions less than 5%</span>
+    <span class="n">tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">composition</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">composition</span> <span class="o">&lt;</span> <span class="n">tot</span> <span class="o">*</span> <span class="n">min_topic_frac</span><span class="p">)</span>
+    <span class="n">other</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">composition</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">topics</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Other&quot;</span><span class="p">])</span>
+    <span class="n">composition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">composition</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">other</span><span class="p">])</span>
+
+    <span class="c1"># sort</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="n">topics</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">composition</span><span class="p">)]</span>
+    <span class="n">composition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">composition</span><span class="p">)</span>
+
+    <span class="c1"># make fig</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># Plot 1: bar</span>
+    <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ypos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">composition</span><span class="p">))</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ypos</span><span class="p">,</span> <span class="n">composition</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ypos</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Plot 2: pie</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">composition</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">topics</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_multimodel_sample_size_dependence"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.get_multimodel_sample_size_dependence">[docs]</a><span class="k">def</span> <span class="nf">get_multimodel_sample_size_dependence</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">sample_fracs</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cat_scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return performance metrics vs training sample size</span>
+
+<span class="sd">    Fractions of data (*sample_fracs*) are randomly sampled from the training dataset</span>
+<span class="sd">    and used to train the models, which are always evaluated on the full testing datasets.</span>
+
+<span class="sd">    :param models: list of topic labelling models</span>
+<span class="sd">    :param datasets: list of input data for models (each is (training, testing) tuple)</span>
+<span class="sd">    :param labels: tuple (train, test) of ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param sample_fracs: list of sample fractions to scan</span>
+<span class="sd">    :param scoring: sklearn scorer or scoring name for topic averaged metric</span>
+<span class="sd">    :param cat_scoring: sklearn scorer or scoring name for individual topic metric</span>
+<span class="sd">    :return: tuple (entries per step, averaged model scores for each step, model scores for each topic for each step)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># inputs</span>
+    <span class="p">(</span><span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">labels</span>
+    <span class="n">train_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_train</span><span class="p">)</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_test</span><span class="p">)</span>
+    <span class="n">train_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">train_size</span><span class="p">)</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">Y_train</span><span class="o">.</span><span class="n">columns</span>
+
+    <span class="c1"># check input dataset size compatibility</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">])</span> <span class="o">==</span> <span class="n">train_size</span><span class="p">),</span> \
+        <span class="s2">&quot;Model training sample sizes are incompatible!&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">])</span> <span class="o">==</span> <span class="n">test_size</span><span class="p">),</span> \
+        <span class="s2">&quot;Model testing sample sizes are incompatible!&quot;</span>
+
+    <span class="c1"># values to fill</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">cat_scores</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">cat_scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">frac</span> <span class="ow">in</span> <span class="n">sample_fracs</span><span class="p">:</span>
+        <span class="c1"># sub-sampling</span>
+        <span class="n">subsample_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frac</span> <span class="o">*</span> <span class="n">train_size</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">rand_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">train_indices</span><span class="p">,</span> <span class="n">subsample_size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Y_train_sub</span> <span class="o">=</span> <span class="n">Y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">rand_indices</span><span class="p">]</span>
+
+        <span class="c1"># account for active categories (ie have at least 1 True and 1 False label)</span>
+        <span class="n">active_cats</span> <span class="o">=</span> <span class="p">[</span><span class="n">cat</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">categories</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y_train_sub</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">active_cats</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no active categories, skipping frac: &quot;</span><span class="p">,</span> <span class="n">frac</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;frac: </span><span class="si">{}</span><span class="s2">, samples: </span><span class="si">{}</span><span class="s2">, active cats: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frac</span><span class="p">,</span> <span class="n">subsample_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">active_cats</span><span class="p">)))</span>
+        <span class="n">Y_train_sub</span> <span class="o">=</span> <span class="n">Y_train_sub</span><span class="p">[</span><span class="n">active_cats</span><span class="p">]</span>
+        <span class="n">Y_test_sub</span> <span class="o">=</span> <span class="n">Y_test</span><span class="p">[</span><span class="n">active_cats</span><span class="p">]</span>
+
+        <span class="c1"># evaluate model</span>
+        <span class="n">model_scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">cat_model_scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">datasets</span><span class="p">):</span>
+            <span class="c1"># print (&quot;evaluating model...&quot;)</span>
+            <span class="n">X_train_sub</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">rand_indices</span><span class="p">]</span>
+
+            <span class="c1"># train</span>
+            <span class="n">model_tmp</span> <span class="o">=</span> <span class="n">clone_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="n">model_tmp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_sub</span><span class="p">,</span> <span class="n">Y_train_sub</span><span class="p">)</span>
+
+            <span class="c1"># predict/eval overall</span>
+            <span class="n">scorer</span> <span class="o">=</span> <span class="n">Y_test_pred</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scorer</span> <span class="o">=</span> <span class="n">check_scoring</span><span class="p">(</span><span class="n">model_tmp</span><span class="p">,</span> <span class="n">scoring</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scorer</span><span class="p">,</span> <span class="n">_PredictScorer</span><span class="p">):</span>
+                    <span class="n">Y_test_pred</span> <span class="o">=</span> <span class="n">model_tmp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scorer</span><span class="p">,</span> <span class="n">_ProbaScorer</span><span class="p">):</span>
+                    <span class="n">Y_test_pred</span> <span class="o">=</span> <span class="n">model_tmp</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Scorer not supported&quot;</span>
+                <span class="n">model_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scorer</span><span class="o">.</span><span class="n">_score_func</span><span class="p">(</span><span class="n">Y_test_sub</span><span class="p">,</span> <span class="n">Y_test_pred</span><span class="p">,</span> <span class="o">**</span><span class="n">scorer</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">))</span>
+
+            <span class="c1"># predict/eval per category</span>
+            <span class="k">if</span> <span class="n">cat_scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cat_scorer</span> <span class="o">=</span> <span class="n">check_scoring</span><span class="p">(</span><span class="n">model_tmp</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cat_scoring</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">cat_scorer</span><span class="p">):</span>
+                    <span class="n">Y_test_pred_cat</span> <span class="o">=</span> <span class="n">Y_test_pred</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cat_scorer</span><span class="p">,</span> <span class="n">_PredictScorer</span><span class="p">):</span>
+                        <span class="n">Y_test_pred_cat</span> <span class="o">=</span> <span class="n">model_tmp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cat_scorer</span><span class="p">,</span> <span class="n">_ProbaScorer</span><span class="p">):</span>
+                        <span class="n">Y_test_pred_cat</span> <span class="o">=</span> <span class="n">model_tmp</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Category Scorer not supported&quot;</span>
+
+                <span class="c1"># eval</span>
+                <span class="n">cat_score</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">active_cats</span><span class="p">:</span>
+                        <span class="n">s</span> <span class="o">=</span> <span class="mf">0.0</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">icat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Y_test_sub</span><span class="o">.</span><span class="n">columns</span> <span class="o">==</span> <span class="n">cat</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">s</span> <span class="o">=</span> <span class="n">cat_scorer</span><span class="o">.</span><span class="n">_score_func</span><span class="p">(</span><span class="n">Y_test_sub</span><span class="p">[</span><span class="n">cat</span><span class="p">],</span>
+                                                   <span class="n">Y_test_pred_cat</span><span class="p">[:,</span> <span class="n">icat</span><span class="p">],</span>
+                                                   <span class="o">**</span><span class="n">cat_scorer</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span>
+                    <span class="n">cat_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">cat_model_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_score</span><span class="p">)</span>
+
+            <span class="c1"># Note: this is typically how to call the scorer (but we hacked to avoid multiple prediction)</span>
+            <span class="c1"># score = scorer(model_tmp, X_test, Y_test_sub)</span>
+
+        <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subsample_size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_scores</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cat_scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cat_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_model_scores</span><span class="p">)</span>
+
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">if</span> <span class="n">cat_scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cat_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cat_scores</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">cat_scores</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="multimodel_sample_size_dependence_graph"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.multimodel_sample_size_dependence_graph">[docs]</a><span class="k">def</span> <span class="nf">multimodel_sample_size_dependence_graph</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">model_names</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">sample_fracs</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                            <span class="n">cat_scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create graph of performance metric vs training sample size</span>
+
+<span class="sd">    Fractions of data (*sample_fracs*) are randomly sampled from the training dataset</span>
+<span class="sd">    and used to train the models, which are always evaluated on the full testing datasets.</span>
+
+<span class="sd">    :param models: list of topic labelling models</span>
+<span class="sd">    :param model_names: list of model names</span>
+<span class="sd">    :param datasets: list of input data for models (each is (training, testing) tuple)</span>
+<span class="sd">    :param labels: tuple (train, test) of ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param sample_fracs: list of sample fractions to scan</span>
+<span class="sd">    :param scoring: sklearn scorer or scoring name for topic averaged metric</span>
+<span class="sd">    :param cat_scoring: sklearn scorer or scoring name for individual topic metric</span>
+<span class="sd">    :return: tuple (figure, major axis, minor axes (flat list), minor axes (2D list))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">cat_scores</span><span class="p">)</span> <span class="o">=</span> <span class="n">get_multimodel_sample_size_dependence</span><span class="p">(</span>
+        <span class="n">models</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">sample_fracs</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">,</span> <span class="n">cat_scoring</span><span class="o">=</span><span class="n">cat_scoring</span><span class="p">)</span>
+
+    <span class="c1"># set figure configuration</span>
+    <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">maj_w</span> <span class="o">=</span> <span class="n">maj_h</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">maj_w</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">maj_h</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">cat_scoring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ncat</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ncat</span> <span class="o">=</span> <span class="n">cat_scores</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_maj</span><span class="p">,</span> <span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_min_ij</span><span class="p">)</span> <span class="o">=</span> <span class="n">create_awesome_plot_grid</span><span class="p">(</span>
+        <span class="n">ncat</span><span class="p">,</span> <span class="n">maj_w</span><span class="o">=</span><span class="n">maj_w</span><span class="p">,</span> <span class="n">maj_h</span><span class="o">=</span><span class="n">maj_h</span><span class="p">,</span> <span class="n">min_xlabel</span><span class="o">=</span><span class="s2">&quot;Train sample size&quot;</span><span class="p">,</span> <span class="n">min_ylabel</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">)</span>
+
+    <span class="c1"># plot main figure</span>
+    <span class="k">if</span> <span class="n">scoring</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">ax_maj</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Overall&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># plot grid with categories</span>
+    <span class="k">if</span> <span class="n">cat_scoring</span><span class="p">:</span>
+        <span class="c1"># get category sample fractions</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">cfracs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">cat</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">])</span>
+
+        <span class="c1"># sort categories by size</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">cfracs</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">cfracs</span> <span class="o">=</span> <span class="n">cfracs</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">cat_scores</span> <span class="o">=</span> <span class="n">cat_scores</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+
+        <span class="c1"># plot subfigs</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">)):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">ax_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">cat_scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="mi">25</span> <span class="k">if</span> <span class="n">ax</span><span class="o">.</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> (</span><span class="si">{:.1f}% f</span><span class="s2">rac)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">categories</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">cfracs</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">scoring</span><span class="p">:</span> <span class="n">ax_min</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_maj</span><span class="p">,</span> <span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_min_ij</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="topic_correlation_matrix"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.topic_correlation_matrix">[docs]</a><span class="k">def</span> <span class="nf">topic_correlation_matrix</span><span class="p">(</span><span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create MxM correlation matrix for M topics</span>
+
+<span class="sd">    Each column represents a given ground truth topic label.</span>
+<span class="sd">    Each row represents the relative frequency with which other</span>
+<span class="sd">    ground truth labels co-occur.</span>
+
+<span class="sd">    :param Y: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :return: tuple (figure, axis)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">Y</span><span class="p">[</span><span class="n">t</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">Y</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">Y</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;topic&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_top</span><span class="p">()</span>  <span class="c1"># x axis on top</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Chosen label&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Coincidence of other labels with chosen label [%]&#39;</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="topic_migration_matrix"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.topic_migration_matrix">[docs]</a><span class="k">def</span> <span class="nf">topic_migration_matrix</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create MxM migration matrix for M topics</span>
+
+<span class="sd">    Each column represents a given ground truth topic label.</span>
+<span class="sd">    Each row represents the relative frequency with which</span>
+<span class="sd">    predicted labels are assigned.</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_pred: topic predictions (one-hot format)</span>
+<span class="sd">    :return: tuple (figure, axis)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y_pred</span><span class="p">[</span><span class="n">Y_true</span><span class="p">[</span><span class="n">t</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y_true</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;topic&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greens&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_top</span><span class="p">()</span>  <span class="c1"># x axis on top</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;True label&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency of predicted label per true label [%]&#39;</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="false_labels_matrix"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.false_labels_matrix">[docs]</a><span class="k">def</span> <span class="nf">false_labels_matrix</span><span class="p">(</span><span class="n">Y_true</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create MxM false labels matrix for M topics</span>
+
+<span class="sd">    Each column represents a given ground truth topic label.</span>
+<span class="sd">    Each row represents the absolute number of false predicted</span>
+<span class="sd">    labels.</span>
+
+<span class="sd">    :param Y_true: ground truth topic labels (one-hot format)</span>
+<span class="sd">    :param Y_pred: topic predictions (one-hot format)</span>
+<span class="sd">    :return: tuple (figure, axis)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y_pred</span><span class="p">[</span><span class="n">Y_true</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">Y_true</span><span class="p">[</span><span class="n">Y_true</span><span class="p">[</span><span class="n">t</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y_true</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;topic&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_top</span><span class="p">()</span>  <span class="c1"># x axis on top</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;True label&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Number of false labels for given true label&#39;</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="keras_train_history_graph"><a class="viewcode-back" href="../../../_autosummary/atnlp.eval.html#atnlp.eval.plot.keras_train_history_graph">[docs]</a><span class="k">def</span> <span class="nf">keras_train_history_graph</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">metrics</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot selected performance *metrics* as a function of training epoch.</span>
+
+<span class="sd">    :param history: keras training history</span>
+<span class="sd">    :param metrics: list of metric names to plot</span>
+<span class="sd">    :return: tuple (figure, list of axes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="n">axs</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="n">metric</span><span class="p">]))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="n">metric</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;val_&#39;</span> <span class="o">+</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_&#39;</span> <span class="o">+</span> <span class="n">metric</span><span class="p">]))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_&#39;</span> <span class="o">+</span> <span class="n">metric</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;validation&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;epoch&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">axs</span><span class="p">)</span></div>
+
+<span class="c1"># EOF</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

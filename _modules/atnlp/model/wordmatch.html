@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.model.wordmatch &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configs.html">Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source.html">Source Code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>atnlp.model.wordmatch</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for atnlp.model.wordmatch</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">wordmatch.py</span>
+<span class="sd">~~~~~~~~~~~~</span>
+
+<span class="sd">Implements key-word based topic labelling classifier</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Will Davey&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;wedavey@gmail.com&quot;</span>
+<span class="n">__created__</span> <span class="o">=</span> <span class="s2">&quot;2018-06-07&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2018 Will Davey&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT https://opensource.org/licenses/MIT&quot;</span>
+
+<span class="c1"># standard imports </span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="c1"># third party imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">ClassifierMixin</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">atnlp.core.logger</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">title_break</span>
+
+<span class="c1"># globals</span>
+
+
+<div class="viewcode-block" id="WordMatchClassifier"><a class="viewcode-back" href="../../../_autosummary/atnlp.model.html#atnlp.model.wordmatch.WordMatchClassifier">[docs]</a><span class="k">class</span> <span class="nc">WordMatchClassifier</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">ClassifierMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Keyword based binary topic classifier</span>
+
+<span class="sd">    The classifier works by assigning the positive class to</span>
+<span class="sd">    any example that contains any of the given keywords.</span>
+<span class="sd">    It is assumed the input data is in the bag-of-words format.</span>
+
+<span class="sd">    The set of keywords is fit to the training data using the</span>
+<span class="sd">    following algorithm. Initially, a single keyword that</span>
+<span class="sd">    maximises $rp^4$ is selected, where $r$ is recall and $p$</span>
+<span class="sd">    is precision. The choice $p^4$ is made to strongly penalise</span>
+<span class="sd">    false positives. This process is repeated, adding keywords</span>
+<span class="sd">    until the metric decreases.</span>
+
+<span class="sd">    TODO: allow predefinition of keywords, that would then be built on?</span>
+<span class="sd">    TODO: include max number of words as hyperparameter</span>
+
+<span class="sd">    :param df_threshold: minimum document frequency for keywords</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df_threshold</span> <span class="o">=</span> <span class="n">df_threshold</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keywords</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="WordMatchClassifier.fit"><a class="viewcode-back" href="../../../_autosummary/atnlp.model.html#atnlp.model.wordmatch.WordMatchClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit model to data</span>
+
+<span class="sd">        :param X: data (bag-of-words format)</span>
+<span class="sd">        :param y: binary classification labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">next_best_word</span><span class="p">(</span><span class="n">X_sig_</span><span class="p">,</span> <span class="n">X_bkg_</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+            <span class="c1"># get decision from existing words</span>
+            <span class="n">mask_sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word_based_predict</span><span class="p">(</span><span class="n">X_sig_</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+            <span class="n">mask_bkg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word_based_predict</span><span class="p">(</span><span class="n">X_bkg_</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+
+            <span class="c1"># calculate tp and fp from existing mask</span>
+            <span class="n">tp_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask_sig</span><span class="p">)</span>
+            <span class="n">fp_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask_bkg</span><span class="p">)</span>
+
+            <span class="c1"># calculate tp/fn/fp arrays for each word (accounting for mask contributions)</span>
+            <span class="n">tp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X_sig_</span><span class="p">[</span><span class="o">~</span><span class="n">mask_sig</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">tp_base</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X_sig_</span><span class="p">[</span><span class="o">~</span><span class="n">mask_sig</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X_bkg_</span><span class="p">[</span><span class="o">~</span><span class="n">mask_bkg</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">fp_base</span>
+            <span class="n">recall</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+            <span class="n">precision</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">recall</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">precision</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+            <span class="c1"># select best scorer</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+
+        <span class="c1"># convert sparse-matrix from BOW into standard matrix</span>
+        <span class="c1"># (probably inefficient, but the sparse matrix exhibits</span>
+        <span class="c1">#  a lot of non-intuitive behavior that ultimately leads</span>
+        <span class="c1">#  to bugs)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;toarray&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">):</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+        <span class="c1"># signal/background datasets</span>
+        <span class="n">X_sig</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)]</span>
+        <span class="n">X_bkg</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">~</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)]</span>
+
+        <span class="c1"># select words with document frequency above threshold</span>
+        <span class="n">word_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X_sig</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_threshold</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">X_sig</span> <span class="o">=</span> <span class="n">X_sig</span><span class="p">[:,</span> <span class="n">word_mask</span><span class="p">]</span>
+        <span class="n">X_bkg</span> <span class="o">=</span> <span class="n">X_bkg</span><span class="p">[:,</span> <span class="n">word_mask</span><span class="p">]</span>
+
+        <span class="c1"># iteratively add keywords until optimisation score decreases</span>
+        <span class="n">keyword_indices_in_mask</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="o">=</span> <span class="n">next_best_word</span><span class="p">(</span><span class="n">X_sig</span><span class="p">,</span> <span class="n">X_bkg</span><span class="p">,</span> <span class="n">keyword_indices_in_mask</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="n">score</span><span class="p">:</span>
+                <span class="n">keyword_indices_in_mask</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="n">s</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keywords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="n">word_mask</span><span class="p">][</span><span class="n">keyword_indices_in_mask</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WordMatchClassifier.predict"><a class="viewcode-back" href="../../../_autosummary/atnlp.model.html#atnlp.model.wordmatch.WordMatchClassifier.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param X:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;toarray&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">):</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word_based_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keywords</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">decision_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_word_based_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">keyword_indices</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return single-class membership prediction based on `keyword_indices`</span>
+<span class="sd">        (if match to any keyword then return True, otherwise False)</span>
+
+<span class="sd">        Will return all false if `keyword_indices` is empty</span>
+
+<span class="sd">        :param X: BOW matrix</span>
+<span class="sd">        :param keyword_indices: indices of keywords in X</span>
+<span class="sd">        :return: np.array (size `n` where n is rows in X)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># stack predictions for each word in rows</span>
+        <span class="c1"># (zeros row in case keyword_indices is empty)</span>
+        <span class="n">y_per_word</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">+</span> <span class="p">[</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">keyword_indices</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># build logical or from rows</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">y_per_word</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="display_keywords"><a class="viewcode-back" href="../../../_autosummary/atnlp.model.html#atnlp.model.wordmatch.display_keywords">[docs]</a><span class="k">def</span> <span class="nf">display_keywords</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">topic_names</span><span class="p">,</span> <span class="n">vocab</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print keywords for WordMatchClassifier instances in OneVsRestClassifier</span>
+
+<span class="sd">    :param model: OneVsRestClassifier containing WordMatchClassifier instances</span>
+<span class="sd">    :param topic_names: topic for each model instance in OneVsRest</span>
+<span class="sd">    :param vocab: id-to-word dictionary for bag-of-words input data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">title_break</span><span class="p">(</span><span class="s1">&#39;Topic Keywords&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">topic_names</span><span class="p">):</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="n">vocab</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_keywords</span><span class="p">]</span>
+        <span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:20s}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">keywords</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_keyword_dataframe"><a class="viewcode-back" href="../../../_autosummary/atnlp.model.html#atnlp.model.wordmatch.get_keyword_dataframe">[docs]</a><span class="k">def</span> <span class="nf">get_keyword_dataframe</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">topic_names</span><span class="p">,</span> <span class="n">vocab</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return pandas DataFrame with keywords for WordMatchClassifier instances in OneVsRestClassifier</span>
+
+<span class="sd">    :param model: OneVsRestClassifier containing WordMatchClassifier instances</span>
+<span class="sd">    :param topic_names: topic for each model instance in OneVsRest</span>
+<span class="sd">    :param vocab: id-to-word dictionary for bag-of-words input data</span>
+<span class="sd">    :return: pandas DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s1">&#39;topic&#39;</span><span class="p">:</span> <span class="n">topic_names</span><span class="p">,</span>
+        <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vocab</span><span class="p">[</span><span class="nb">eval</span><span class="o">.</span><span class="n">_keywords</span><span class="p">])</span> <span class="k">for</span> <span class="nb">eval</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">]</span>
+    <span class="p">})[[</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">]]</span></div>
+
+
+<span class="c1"># EOF</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,647 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>atnlp.data &mdash; atnlp 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atnlp.eval" href="atnlp.eval.html" />
+    <link rel="prev" title="atnlp.core" href="atnlp.core.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> atnlp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topiclabel.html">Topic labelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configs.html">Configs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../source.html">Source Code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="atnlp.core.html">atnlp.core</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">atnlp.data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#io-py">io.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parse-py">parse.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reuters-py">reuters.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.eval.html">atnlp.eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atnlp.model.html">atnlp.model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">atnlp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../source.html">Source Code</a> &raquo;</li>
+        
+      <li>atnlp.data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/atnlp.data.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-atnlp.data">
+<span id="atnlp-data"></span><h1>atnlp.data<a class="headerlink" href="#module-atnlp.data" title="Permalink to this headline">¶</a></h1>
+<p>Data io and parsing</p>
+<span class="target" id="module-atnlp.data.io"></span><div class="section" id="io-py">
+<h2>io.py<a class="headerlink" href="#io-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for reading and writing datasets</p>
+<dl class="function">
+<dt id="atnlp.data.io.read_one_hot_labels">
+<code class="descclassname">atnlp.data.io.</code><code class="descname">read_one_hot_labels</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/io.html#read_one_hot_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.io.read_one_hot_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read topic labels from file in one-hot form</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> – name of input file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">topic labels (one-hot DataFrame, M x N)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.io.read_raw">
+<code class="descclassname">atnlp.data.io.</code><code class="descname">read_raw</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/io.html#read_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.io.read_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read raw text data from file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> – name of input file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.io.write_one_hot_labels">
+<code class="descclassname">atnlp.data.io.</code><code class="descname">write_one_hot_labels</code><span class="sig-paren">(</span><em>Y</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/io.html#write_one_hot_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.io.write_one_hot_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write topic labels to file in one-hot form</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>Y</strong> – topic labels (one-hot DataFrame, M x N)</li>
+<li><strong>filename</strong> – name of output file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.io.write_raw">
+<code class="descclassname">atnlp.data.io.</code><code class="descname">write_raw</code><span class="sig-paren">(</span><em>X</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/io.html#write_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.io.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write raw text data to file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>X</strong> – list of strings</li>
+<li><strong>filename</strong> – name of output file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.data.parse"></span><div class="section" id="parse-py">
+<h2>parse.py<a class="headerlink" href="#parse-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality for parsing text inputs.</p>
+<dl class="function">
+<dt id="atnlp.data.parse.build_vocab">
+<code class="descclassname">atnlp.data.parse.</code><code class="descname">build_vocab</code><span class="sig-paren">(</span><em>raw_data</em>, <em>max_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/parse.html#build_vocab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.parse.build_vocab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dict of word-to-id from raw text data</p>
+<p>If max_size is specified, vocab is truncated to set
+of highest frequency words within size.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>raw_data</strong> – list of strings</li>
+<li><strong>max_size</strong> – maximum size of vocab</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">word-to-id dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.parse.filter1">
+<code class="descclassname">atnlp.data.parse.</code><code class="descname">filter1</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/parse.html#filter1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.parse.filter1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if word passes filter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>word</strong> – string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True or False</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.parse.process_text">
+<code class="descclassname">atnlp.data.parse.</code><code class="descname">process_text</code><span class="sig-paren">(</span><em>text</em>, <em>tokenize=&lt;function tokenize1&gt;</em>, <em>filter=&lt;function filter1&gt;</em>, <em>stem=None</em>, <em>lower=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/parse.html#process_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.parse.process_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return processed list of words from raw text input</p>
+<p>To be honest, we’re currently using sklearn CountVectorizer and
+keras text_to_word_sequence instead of this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> – raw text input (string)</li>
+<li><strong>tokenize</strong> – tokenizing function</li>
+<li><strong>filter</strong> – filter function</li>
+<li><strong>stem</strong> – stemming function</li>
+<li><strong>lower</strong> – convert input text to lowercase if true</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of strings</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.parse.raw_to_ids">
+<code class="descclassname">atnlp.data.parse.</code><code class="descname">raw_to_ids</code><span class="sig-paren">(</span><em>raw_data</em>, <em>word_to_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/parse.html#raw_to_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.parse.raw_to_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert raw text data into integer ids</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>raw_data</strong> – raw text data (list of strings)</li>
+<li><strong>word_to_id</strong> – word-to-id dict</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of list of integer ids</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.parse.tokenize1">
+<code class="descclassname">atnlp.data.parse.</code><code class="descname">tokenize1</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/parse.html#tokenize1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.parse.tokenize1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return tokenized list of strings from raw text input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – raw text (string)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of tokens (strings)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.parse.tokenize_keras">
+<code class="descclassname">atnlp.data.parse.</code><code class="descname">tokenize_keras</code><span class="sig-paren">(</span><em>raw_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/parse.html#tokenize_keras"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.parse.tokenize_keras" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return tokenized list of strings from raw text input using keras functionality</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>raw_data</strong> – raw text (string)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of tokens (strings)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-atnlp.data.reuters"></span><div class="section" id="reuters-py">
+<h2>reuters.py<a class="headerlink" href="#reuters-py" title="Permalink to this headline">¶</a></h2>
+<p>Functionality to read in Reuters corpus using the nltk module</p>
+<dl class="class">
+<dt id="atnlp.data.reuters.ReutersIter">
+<em class="property">class </em><code class="descclassname">atnlp.data.reuters.</code><code class="descname">ReutersIter</code><span class="sig-paren">(</span><em>files</em>, <em>tokenize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#ReutersIter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.ReutersIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reuters dataset iterator</p>
+<p>Implements generator instead of reading full dataset into memory.
+However, its not super necessary coz this dataset is small, and
+most of the time we actually create a list from this anyway.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> – list of files to iterate over</li>
+<li><strong>tokenize</strong> – tokenization function (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_data">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_data</code><span class="sig-paren">(</span><em>cats=None</em>, <em>tokenize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return raw text data from Reuters corpus in (train, test) tuple</p>
+<p>If <em>cats</em> is specified, data is filtered to only contain documents
+from the specified categories.</p>
+<p>If <em>tokenize</em> is specified, data is tokenized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cats</strong> – categories</li>
+<li><strong>tokenize</strong> – tokenization function</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of (train, test) data (each is list of strings)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_data_test">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_data_test</code><span class="sig-paren">(</span><em>cats=None</em>, <em>tokenize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_data_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_data_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return raw text testing data (cf <em>get_data</em>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cats</strong> – categories</li>
+<li><strong>tokenize</strong> – tokenization function</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">test data (list of strings)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_data_train">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_data_train</code><span class="sig-paren">(</span><em>cats=None</em>, <em>tokenize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_data_train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_data_train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return raw text training data (cf <em>get_data</em>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cats</strong> – categories</li>
+<li><strong>tokenize</strong> – tokenization function</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">train data (list of strings)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_labels">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_labels</code><span class="sig-paren">(</span><em>cats=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return topic labels (one-hot format) from Reuters corpus in (train, test) tuple</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cats</strong> – categories</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple of (train, test) topic labels (one-hot format)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_labels_test">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_labels_test</code><span class="sig-paren">(</span><em>cats=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_labels_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_labels_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return testing set topic labels (one-hot format) from Reuters corpus (cf <em>get_labels</em>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cats</strong> – categories</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">test topic labels (one-hot format)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_labels_train">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_labels_train</code><span class="sig-paren">(</span><em>cats=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_labels_train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_labels_train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return training set topic labels (one-hot format) from Reuters corpus (cf <em>get_labels</em>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cats</strong> – categories</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">train topic labels (one-hot format)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.get_topics">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">get_topics</code><span class="sig-paren">(</span><em>min_samples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#get_topics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.get_topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return set of topics from Reuters corpus</p>
+<p>If <em>min_samples</em> is specified, only topics with at
+least that many examples are included.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>min_samples</strong> – minimum number of example per topic</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of topics</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.labels">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">labels</code><span class="sig-paren">(</span><em>filenames</em>, <em>cats=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return topic labels (one-hot format) for given files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filenames</strong> – selected files from Reuters dataset</li>
+<li><strong>cats</strong> – categories to filter (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">topic labels (one-hot format)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.test_filenames">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">test_filenames</code><span class="sig-paren">(</span><em>cats=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#test_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.test_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return filenames of testing examples</p>
+<p>If <em>cats</em> is specified, filenames are filtered to only contain documents
+from the specified categories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cats</strong> – categories</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of filenames</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="atnlp.data.reuters.train_filenames">
+<code class="descclassname">atnlp.data.reuters.</code><code class="descname">train_filenames</code><span class="sig-paren">(</span><em>cats=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atnlp/data/reuters.html#train_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atnlp.data.reuters.train_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return filenames of training examples</p>
+<p>If <em>cats</em> is specified, filenames are filtered to only contain documents
+from the specified categories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cats</strong> – categories</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of filenames</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="atnlp.eval.html" class="btn btn-neutral float-right" title="atnlp.eval" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="atnlp.core.html" class="btn btn-neutral" title="atnlp.core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Will Davey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

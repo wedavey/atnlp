@@ -1,0 +1,29 @@
+name: atnlp
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3
+# base
+  - matplotlib
+  - nltk
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+  - seaborn
+  - yaml
+# xgboost
+  - xgboost
+# deep
+  - gensim
+  - keras
+  - tensorflow
+# notebook
+  - ipykernel
+  - ipython
+  - jupyter
+  - notebook
+# docs
+  - sphinx
+  - sphinx_rtd_theme

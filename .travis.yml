@@ -9,7 +9,7 @@ install:
 - . ./.travis/setup.sh
 - pip install sphinx sphinx_rtd_theme
 - echo $DEPLOY_HTML_DIR
-after_script:
+script:
 #- sudo pip install -r docs/requirements.txt --use-mirrors
 #- pip install spinx sphinx_rtd_theme
 - cd docs

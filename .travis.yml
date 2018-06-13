@@ -8,8 +8,6 @@ install:
   - python setup.py install
 
 script:
-  # build dist
-  - python setup.py sdist
   # now do the docs
   - cd docs
   # Use Sphinx to make the html docs
@@ -20,11 +18,11 @@ script:
 # Tell Travis CI to copy the documentation to the gh-pages branch of
 # your GitHub repository.
 deploy:
-
   - provider: pypi
     user: wedavey
+    distributions: sdist bdist_wheel
     password:
-      secure: "HuqlD5IOdy4iN37B+oWWltAaZsamFs/7AqhoTIfaL4/pHdsJ9op0S2SUGUTY/svolKV9/ufiT4lYBhkBnHUStFSEQxXCwd7aS+7E8F0+5qxGtYPuYzQfjnhPmierYiPyKNMx8FUG83KBbpItrC764L56IwxlvzESeluurr3YAT3i7j23M8pTuPXnAZFoJZZi9xiEhEb76M81Z3Cm8zioLreJsZuPJWXv8x05byUIxo//+QWTm0LTyfPX3qHNd60oOuEY3u09L7U8uZI9Fm9EnyxO7vp/VZjgJ9J8FVY5dkqs+U6QM1Gfb7eEm8ZKH2NxEXPx8kjOzQwbuIgEgTbDEy6I/5NBTMswoIlX9mSYE/qfYbPfbe2Pzb8jLHll2jxGr6hOiuf3YvgzeceZuIjUvoh+RCPKVoAwmxe06/HfoeATUfVKrX22OujL7xw6KZgDst+ac9inu2ipLk/5NcckVazsVWnryiGBy0U66BTp9pPGbcxFLmqSntRR3hg5e4Afgh70cM47gz/9i6xKyjI2BQemFmpyQ7Ft+wpt8h1CFLrkuPpIqDlF2YKyIyjJCnL+q9SXJOX2RykEdnYXf6cl4bUQyYB9MEa8j/mDms0mqI34eroFveLWvfuktKU2y/xffEtcARSiCzbNXFsUVkE1T8CX5cqHN3c3Gcl6kFdRRNU="
+      secure: "MUoyqWVkzliFtUZsS/UmZudRx4e8vMYOfd9m0v3rO1K630RnwmdfI69z17W7GHo8a8/hTcNssL7siwxxYQnnnEhPF6+x7pCdg11gq7hJ2yDJ17d5lAh8oPpkgHg1We/i9IN1DIA7z4elhhja7LJMoilDUgssywHQrJ+gc/WouRiGA+U/KYw5nstYGGD1JkdMK7cqq4dpXEP5+Qr16mu+u3zCxcs3YM+bTe9E78ynJGj9G/NKnClrjcNfhhLPJbm32rtYQl387+7dAOQYwiWHL7F++QPELnBD3/ApFrEkgUdS7oH47yjqsXFiNzzaUQClFdM1xq+LfzfaPk5FFWVFU8oUzswKDGwMv1C4S8e8Pj8Lhk/PCad8iyYATEZfZoE4+I1fKoCo5GFFzx7iQPD3MgvNLS9dj2yEu8RB2LHqSFw2qsGZhlEQGMz1+w+tW8YK/y/IN8rukTl1Pfk/CzonrHDbWjyaxd6r8Dyq72+du13HP4xWkRCIxBZl+hPX4xiLo7Bz80i4/zzxbcwagniENukQbO9vGLn7ZeV1ghqv+9CW0NZSBEuGRyjNXRKTy/o2r5riZzGUMNh0a7LymKA2Bz4vU8twuDKQpek1jjHBkhMGywWJEumL1G6/n7hVkausmjB9SQRK0yHvJz74IupuaTHmLVhDAwIUXvFKLiikuhw="
     on:
       tags: true
 

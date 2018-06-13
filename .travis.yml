@@ -1,4 +1,6 @@
 language: python
+python:
+- "3.6"
 before_script:
 - git config --global user.name "Will Davey"
 - git config --global user.email "wedavey @ gmail . com"
@@ -6,7 +8,7 @@ before_script:
 - . ./.travis/setup.sh
 - echo $DEPLOY_HTML_DIR
 after_script:
-- sudo pip install -r docs/requirements.txt --use-mirrors
+#- sudo pip install -r docs/requirements.txt --use-mirrors
 - cd docs
 - make setup_gh_pages
 - make generate

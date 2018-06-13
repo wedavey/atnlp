@@ -33,6 +33,7 @@ extras_requires={
     'deep': ['gensim', 'keras', 'tensorflow'],
     'book': ['ipykernel', 'ipython', 'jupyter', 'notebook'],
     'docs': ['sphinx', 'sphinx_rtd_theme'],
+    'dev': ['bumpversion']
 }
 extras_requires['extras'] = list(set([a for b in extras_requires.values() for a in b]))
 

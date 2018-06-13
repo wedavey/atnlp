@@ -21,13 +21,10 @@ script:
 deploy:
   - provider: pypi
     user: wedavey
-    #distributions: sdist bdist_wheel
-    #skip_cleanup: true
     password:
       secure: TACrD5XzKu50D9TKScvTAWOmHC8l568m4f/LcLdEORUkbFzSEKsu+25KZDIPAwrSdAnnJcP/LMoZkxJoxAbVvF4KP6PhrsvqXUZ8mSgshnKc8popPD1A66ZSScgrVk3BoYdUAZcX5aLW/Vl8BTdzli8HUTSr9JH+DFKFPQgbUtqkIFJtLs3hXDgajf67f06Arr4j3+tIY/O3qX5RpaUv2mFGX+3xGRB0e0bc3z3YADuZRv5Lc/t3gGAg6zX4ZltqgJLdD7skw6M2ifwOCwcL6Q0lz2OaZFrWK8Tisrb3UxKP1LZgim8f4Z7MSNyKBsPmk21lMJfbX5y5nXXhJ24dIjCG9I1r3bPiWBKO/fs++GpHBCSZ3BC91g/ueO1ScaqwpedNQS3Otxb5svyG7TZWA9UnFgRx4eWpCBL6kAJnW/pkNEKt83f+VV8tfZF55N8SiaW+EDn5YOh2MItvA1hspPNX6Q5ZZs56wSkAtK2c7uDT08Y7Zw8vvE2HmxNbybRmULEUkCCItzhvDox6w/mKt6ED+RETtsEbmED8jZhx257QXbtHF4b36ByCFjxVYbiRhyrhOGhLgZZaLwuah0TJgLcK40vlF5sr1HSSJaEPPVUbbyeYv4wYDlBaJhlOb0ljHAH7Ie1mlhzuWRHLdJYaY+YeWvfe9BEhA5UJa5c8YcE=
     on:
-      all_branches: true
-      #tags: true
+      tags: true
 
   - provider: pages
     skip_cleanup: true

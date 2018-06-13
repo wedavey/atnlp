@@ -1,27 +1,5 @@
 language: python
-#python:
-#- "3.6"
-#before_install:
-#- git config --global user.name "Will Davey"
-#- git config --global user.email "wedavey @ gmail . com"
-#- export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
-#install:
-#- . ./.travis/setup.sh
-#- pip install sphinx sphinx_rtd_theme
-#- echo $DEPLOY_HTML_DIR
-#script:
-##- sudo pip install -r docs/requirements.txt --use-mirrors
-##- pip install sphinx sphinx_rtd_theme
-#- cd docs
-#- make setup_gh_pages
-#- make generate
-#- make deploy
-#env:
-#  global:
-#  - GH_REPO="wedavey/atnlp"
-##notifications:
-##  slack:
-##    secure: RhiJy6C19bKjM8fY5oHFSBAyHgRRDr+ZiYhK5QwlitpQmSCsABLsVGWpIrD+aA0nPKs6khtmNFUoEsXtzol65CsvV2m70SQbVK3OCbOwXd6xRSLw8hb1p+SOnpqu/VvZ89iayVl7J9Y8WpJQlUfobMXZgequED7mSRo9+bdBB4E=
+
 python:
 - "3.6"
 
@@ -44,5 +22,8 @@ deploy:
   github_token: $GH_TOKEN  # Set in travis-ci.org dashboard, marked secure
   keep-history: true
   on:
-    branch: master
+    tags: true
+    #branch: master
   local_dir: docs/_build/html/
+
+# script based on https://amarder.github.io/using-travis-ci-to-build-sphinx-docs/

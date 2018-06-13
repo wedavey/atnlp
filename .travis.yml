@@ -1,13 +1,14 @@
 language: python
 python:
 - "3.6"
-before_script:
+before_install:
 - git config --global user.name "Will Davey"
 - git config --global user.email "wedavey @ gmail . com"
 - export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
+install:
 - . ./.travis/setup.sh
-- pip install spinx sphinx_rtd_theme
-#- echo $DEPLOY_HTML_DIR
+- pip install sphinx sphinx_rtd_theme --use-mirrors
+- echo $DEPLOY_HTML_DIR
 after_script:
 #- sudo pip install -r docs/requirements.txt --use-mirrors
 #- pip install spinx sphinx_rtd_theme

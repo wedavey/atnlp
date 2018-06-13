@@ -24,9 +24,7 @@ Clone atnlp
 -----------
 Clone atnlp from the repo::
 
-    git clone git@bitbucket.org:wedavey/atnlp.git
-
-.. todo:: update this to github
+    git clone git@github.com:wedavey/atnlp.git
 
 
 Create environment

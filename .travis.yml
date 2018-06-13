@@ -6,9 +6,11 @@ before_script:
 - git config --global user.email "wedavey @ gmail . com"
 - export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
 - . ./.travis/setup.sh
-- echo $DEPLOY_HTML_DIR
+- pip install spinx sphinx_rtd_theme
+#- echo $DEPLOY_HTML_DIR
 after_script:
 #- sudo pip install -r docs/requirements.txt --use-mirrors
+#- pip install spinx sphinx_rtd_theme
 - cd docs
 - make setup_gh_pages
 - make generate

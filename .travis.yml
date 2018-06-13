@@ -7,7 +7,7 @@ before_install:
 - export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
 install:
 - . ./.travis/setup.sh
-- pip install sphinx sphinx_rtd_theme --use-mirrors
+- pip install sphinx sphinx_rtd_theme
 - echo $DEPLOY_HTML_DIR
 after_script:
 #- sudo pip install -r docs/requirements.txt --use-mirrors

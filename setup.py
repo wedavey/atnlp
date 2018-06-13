@@ -51,12 +51,12 @@ setup(
     extras_require=extras_requires,
     scripts=scripts,
     version='0.0.4',
-    classifiers=(
+    classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Natural Language :: English",
         "Topic :: Scientific/Engineering :: Information Analysis",
-        "Topic :: Scientific/Engineering :: Artificial Intelligence"
-    ),
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    ],
 )

@@ -17,13 +17,17 @@ script:
 # Tell Travis CI to copy the documentation to the gh-pages branch of
 # your GitHub repository.
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GH_TOKEN  # Set in travis-ci.org dashboard, marked secure
-  keep-history: true
-  on:
-    tags: true
-    #branch: master
-  local_dir: docs/_build/html/
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GH_TOKEN  # Set in travis-ci.org dashboard, marked secure
+    keep-history: true
+    on:
+      tags: true
+      #branch: master
+    local_dir: docs/_build/html/
+  - provider: pypi
+    user: wedavey
+    password:
+      secure: "HuqlD5IOdy4iN37B+oWWltAaZsamFs/7AqhoTIfaL4/pHdsJ9op0S2SUGUTY/svolKV9/ufiT4lYBhkBnHUStFSEQxXCwd7aS+7E8F0+5qxGtYPuYzQfjnhPmierYiPyKNMx8FUG83KBbpItrC764L56IwxlvzESeluurr3YAT3i7j23M8pTuPXnAZFoJZZi9xiEhEb76M81Z3Cm8zioLreJsZuPJWXv8x05byUIxo//+QWTm0LTyfPX3qHNd60oOuEY3u09L7U8uZI9Fm9EnyxO7vp/VZjgJ9J8FVY5dkqs+U6QM1Gfb7eEm8ZKH2NxEXPx8kjOzQwbuIgEgTbDEy6I/5NBTMswoIlX9mSYE/qfYbPfbe2Pzb8jLHll2jxGr6hOiuf3YvgzeceZuIjUvoh+RCPKVoAwmxe06/HfoeATUfVKrX22OujL7xw6KZgDst+ac9inu2ipLk/5NcckVazsVWnryiGBy0U66BTp9pPGbcxFLmqSntRR3hg5e4Afgh70cM47gz/9i6xKyjI2BQemFmpyQ7Ft+wpt8h1CFLrkuPpIqDlF2YKyIyjJCnL+q9SXJOX2RykEdnYXf6cl4bUQyYB9MEa8j/mDms0mqI34eroFveLWvfuktKU2y/xffEtcARSiCzbNXFsUVkE1T8CX5cqHN3c3Gcl6kFdRRNU="
 
 # script based on https://amarder.github.io/using-travis-ci-to-build-sphinx-docs/

@@ -50,7 +50,7 @@ setup(
     install_requires=install_requires,
     extras_require=extras_requires,
     scripts=scripts,
-    version='0.0.3',
+    version='0.0.4',
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

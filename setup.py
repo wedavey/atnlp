@@ -40,6 +40,7 @@ extras_requires['extras'] = list(set([a for b in extras_requires.values() for a 
 setup(
     name='atnlp',
     description='A tool for natural language processing',
+    url='https://github.com/wedavey/atnlp',
     author='Will Davey',
     author_email='wedavey@gmail.com',
     license='MIT',

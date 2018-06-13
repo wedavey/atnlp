@@ -53,6 +53,8 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 docs/_autosummary/
+docs/_deploy
+docs/_deploy_heroku
 
 # PyBuilder
 target/

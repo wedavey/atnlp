@@ -9,11 +9,10 @@ dependencies:
   - nltk
   - numpy
   - pandas
+  - pyyaml
   - scikit-learn
   - scipy
   - seaborn
-  - yaml
-# xgboost
   - xgboost
 # deep
   - gensim
@@ -24,6 +23,7 @@ dependencies:
   - ipython
   - jupyter
   - notebook
-# docs
+# dev
+  - bumpversion
   - sphinx
   - sphinx_rtd_theme

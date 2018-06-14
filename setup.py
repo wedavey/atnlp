@@ -27,9 +27,9 @@ install_requires=[
     "scikit-learn",
     "scipy",
     "seaborn",
+    "xgboost",
 ]
 extras_requires={
-    'xgb': ['xgboost'],
     'deep': ['gensim', 'keras', 'tensorflow'],
     'book': ['ipykernel', 'ipython', 'jupyter', 'notebook'],
     'docs': ['sphinx', 'sphinx_rtd_theme'],

@@ -1,9 +1,9 @@
 # atnlp
 
 
-A tool for natural language processing.
+A tool for natural language processing in python based on scipy and sklearn. 
 
-[Read the docs](https://wedavey.github.io/atnlp/)
+Current focus is topic labelling. [Read the docs](https://wedavey.github.io/atnlp/) for more information.
 
 ## Technologies
 
@@ -27,17 +27,33 @@ More details in [quickstart docs](https://wedavey.github.io/atnlp/quickstart.htm
 [installation instructions](https://conda.io/docs/user-guide/install/index.html) 
 for your platform and select python 3 version.
 
-
-### Install 
- 
-Install atnlp and its dependencies: 
-```bash
-conda update conda -c conda-forge
-git clone git@github.com:wedavey/atnlp.git
-conda env create -f atnlp/environment.yml -n atnlp
-conda activate atnlp
-pip install ./atnlp
+After installing update `conda` from the `conda-forge` repo: 
 ```
+conda update conda -c conda-forge 
+```
+
+
+### Install (production)
+ 
+Install atnlp (with pip) and its dependencies (with conda): 
+```bash
+wget https://raw.githubusercontent.com/wedavey/atnlp/master/envprod.yml
+conda env create -f envprod.yml -n atnlp
+conda activate atnlp
+```
+
+### Install (development) 
+
+Fork [wedave/atnlp](https://github.com/wedavey/atnlp) then install 
+from github:
+```bash
+git clone git@github.com:<your-user-name>/atnlp.git
+conda env create -f atnlp/envdev.yml -n atnlp-dev
+conda activate atnlp-dev
+cd atnlp; python setup.py develop
+```
+
+
 
 ## Running tests
 
@@ -46,12 +62,14 @@ TODO...
 
 ## Deployment 
 
-Start [training topic models](https://wedavey.github.io/atnlp/topiclabel.html) straight away using scripts, or open a notebook and start hacking.
+Start [training topic models](https://wedavey.github.io/atnlp/topiclabel.html) 
+straight away using scripts, or open a notebook and start hacking.
 
 
 ## Versioning
 
-We use [SemVer](https://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/wedavey/atnlp/tags). 
+We use [SemVer](https://semver.org/) for versioning, implemented through bumpversion. 
+For the versions available, see the [tags on this repository](https://github.com/wedavey/atnlp/tags). 
 
 ## Authors
 

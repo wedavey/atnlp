@@ -52,7 +52,7 @@ setup(
     install_requires=install_requires,
     extras_require=extras_requires,
     scripts=scripts,
-    version='0.0.8',
+    version='0.0.9',
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

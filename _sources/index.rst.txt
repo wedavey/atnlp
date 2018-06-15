@@ -7,8 +7,11 @@
 
 .. _mainpage:
 
-atnlp documentation!
-==============================================
+atnlp
+=====
+A tool for natural language processing in python based on scipy and sklearn.
+
+Current focus is topic labelling.
 
 Contents
 ========

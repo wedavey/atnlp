@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quickstart &mdash; atnlp 0.0.8 documentation</title>
+  <title>Quickstart &mdash; atnlp 0.0.9 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Topic labelling" href="topiclabel.html" />
-    <link rel="prev" title="atnlp documentation!" href="index.html" /> 
+    <link rel="prev" title="atnlp" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.0.8
+                0.0.9
               </div>
             
           
@@ -84,11 +84,12 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install-anaconda">Install Anaconda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#clone-atnlp">Clone atnlp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-environment">Create environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install-atnlp-and-dependencies">Install atnlp and dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-conda">Install conda</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#install-atnlp-production">Install atnlp (production)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-atnlp-development">Install atnlp (development)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="topiclabel.html">Topic labelling</a></li>
@@ -161,39 +162,37 @@
             
   <div class="section" id="quickstart">
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>conda (Anaconda / Miniconda)</li>
-<li>python &gt;= 3.5 (installed through conda)</li>
-<li>python data science libraries (installed through conda)</li>
+<li><a class="reference external" href="https://conda.io/">conda</a> (<a class="reference external" href="https://www.anaconda.com/">Anaconda</a>
+/ <a class="reference external" href="https://conda.io/miniconda.html">Miniconda</a>), used to manage python dependencies in a virtual environment</li>
+<li><a class="reference external" href="https://www.python.org/">python</a> &gt;= 3.5 (installed through conda)</li>
+<li>datascience libraries: matplotlib, numpy, sklearn, etc… (installed through conda)</li>
 </ul>
-</div>
-<div class="section" id="install-anaconda">
-<h2>Install Anaconda<a class="headerlink" href="#install-anaconda" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://www.anaconda.com/">Anaconda</a> is used to manage python dependencies in a virtual environment.</p>
-<p>Install <strong>python 3</strong> version of <strong>Anaconda</strong> (or miniconda): <a class="reference external" href="https://www.anaconda.com/download/">https://www.anaconda.com/download/</a></p>
+<div class="section" id="install-conda">
+<h3>Install conda<a class="headerlink" href="#install-conda" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://conda.io/docs/user-guide/install/index.html">Install Anaconda or Miniconda</a>.
+Select the python 3 version. We recommend Anaconda for development and Miniconda for production.</p>
 <p>Update to the latest version:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">update</span> <span class="n">conda</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="clone-atnlp">
-<h2>Clone atnlp<a class="headerlink" href="#clone-atnlp" title="Permalink to this headline">¶</a></h2>
-<p>Clone atnlp from the repo:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">wedavey</span><span class="o">/</span><span class="n">atnlp</span><span class="o">.</span><span class="n">git</span>
+</div>
+<div class="section" id="install-atnlp-production">
+<h2>Install atnlp (production)<a class="headerlink" href="#install-atnlp-production" title="Permalink to this headline">¶</a></h2>
+<p>Follow these instructions if you want to deploy atnlp for production (ie without developing).</p>
+<p>Download the atnlp conda production environment configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wedavey</span><span class="o">/</span><span class="n">atnlp</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">envprod</span><span class="o">.</span><span class="n">yml</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="create-environment">
-<h2>Create environment<a class="headerlink" href="#create-environment" title="Permalink to this headline">¶</a></h2>
-<p>Create a conda environment called <code class="docutils literal notranslate"><span class="pre">atnlp</span></code> where we will install the atnlp package and all its dependencies.</p>
-<p>From commandline:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">-</span><span class="n">f</span> <span class="n">atnlp</span><span class="o">/</span><span class="n">environment</span><span class="o">.</span><span class="n">yml</span> <span class="o">-</span><span class="n">n</span> <span class="n">atnlp</span>
+<p>Create <cite>atnlp</cite> environment (including dependencies):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">-</span><span class="n">f</span> <span class="n">envprod</span><span class="o">.</span><span class="n">yml</span> <span class="o">-</span><span class="n">n</span> <span class="n">atnlp</span>
 </pre></div>
 </div>
 <p>If you prefer, Anaconda also provides a GUI for managing environments.</p>
-<p>Activate the environment via:</p>
+<p>Activate the environment:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">atnlp</span>
 </pre></div>
 </div>
@@ -201,19 +200,41 @@
 <p class="first admonition-title">Note</p>
 <p class="last">on older versions of conda you may need to use <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span> <span class="pre">atnlp</span></code></p>
 </div>
-<p>Make sure you do this anytime you want to use the atnlp package or manage any dependencies.</p>
+<p>Make sure you activate this environment anytime you want to use the atnlp package or manage dependencies.</p>
 <p>To deactivate the environment issue <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">deactivate</span></code> (<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">deactivate</span></code> on older conda versions).</p>
 </div>
-<div class="section" id="install-atnlp-and-dependencies">
-<h2>Install atnlp and dependencies<a class="headerlink" href="#install-atnlp-and-dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Install (development mode):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">./</span><span class="n">atnlp</span>
+<div class="section" id="install-atnlp-development">
+<h2>Install atnlp (development)<a class="headerlink" href="#install-atnlp-development" title="Permalink to this headline">¶</a></h2>
+<p>Follow these instructions if you want to develop the atnlp package.</p>
+<p>Create a fork of <a class="reference external" href="https://github.com/wedavey/atnlp">wedavey/atnlp</a> (button at top right).</p>
+<p>Clone your fork:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">your</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;/</span><span class="n">atnlp</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
-<p>Install (production mode):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">./</span><span class="n">atnlp</span>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">make sure to replace <cite>&lt;your-user-name&gt;</cite> with your github user name!</p>
+</div>
+<p>Create <cite>atnlp-dev</cite> environment (including dependencies):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">-</span><span class="n">f</span> <span class="n">atnlp</span><span class="o">/</span><span class="n">envdev</span><span class="o">.</span><span class="n">yml</span> <span class="o">-</span><span class="n">n</span> <span class="n">atnlp</span><span class="o">-</span><span class="n">dev</span>
 </pre></div>
 </div>
+<p>If you prefer, Anaconda also provides a GUI for managing environments.</p>
+<p>Activate the environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">atnlp</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">on older versions of conda you may need to use <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span> <span class="pre">atnlp-dev</span></code></p>
+</div>
+<p>Make sure you do this anytime you want to use the atnlp package or manage any dependencies.</p>
+<p>To deactivate the environment issue <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">deactivate</span></code> (<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">deactivate</span></code> on older conda versions).</p>
+<p>Install atnlp:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">atnlp</span><span class="p">;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>Now start developing! When you’re happy with the changes on your fork and want to merge into the main repo, make a pull request.</p>
 </div>
 </div>
 
@@ -228,7 +249,7 @@
         <a href="topiclabel.html" class="btn btn-neutral float-right" title="Topic labelling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="atnlp documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="atnlp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -259,7 +280,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.8',
+            VERSION:'0.0.9',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

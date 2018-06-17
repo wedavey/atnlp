@@ -84,7 +84,7 @@ def main():
     # Load models
     # -----------
     section_break("Loading models")
-    names = [os.path.splitext(m)[0] for m in args.models]
+    names = [os.path.splitext(os.path.basename(m))[0] for m in args.models]
     models = [joblib.load(m) for m in args.models]
 
     # -------
